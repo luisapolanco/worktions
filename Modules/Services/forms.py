@@ -1,7 +1,8 @@
 from django import forms
-from Modules.Services.models import Customer, Contractor
+from django.forms import ModelForm
+from .models import Customer, Contractor
 
-class SignUpCustomerForm(forms.ModelForm):
+class SignUpCustomerForm(ModelForm):
     class Meta: 
         model = Customer
 
