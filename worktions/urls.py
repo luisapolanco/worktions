@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Modules.Services import views as servicesViews
+from django.contrib.auth.views import LoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login', servicesViews.login),
-    path('home', servicesViews.home),
-    path('signup', servicesViews.signUpCustomer, name="signup")
+    path('home', servicesViews.home, name='home'),
+    path('signup-customer', servicesViews.signUpCustomer),
+    path('signup-contractor', servicesViews.signUpContractor),
+    path('login', LoginView.as_view(template_name='login.html')),
 ]

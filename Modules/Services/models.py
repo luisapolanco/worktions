@@ -10,11 +10,9 @@ class Customer(models.Model):
     email = models.CharField(max_length =30)
     city = models.CharField(max_length =20)
     phone = models.CharField(max_length =15)
-    genders = [
-        ('F', 'Femenino'),
-        ('M', 'Masculino')
-    ]
-    gender = models.CharField(max_length=1, choices=genders, default='F')
+    gender = models.CharField(max_length=15)
+    user_name = models.CharField(max_length=20, default='')
+    password = models.CharField(max_length=50, default='')
 
 
 class Contractor(models.Model):
@@ -25,11 +23,9 @@ class Contractor(models.Model):
     email = models.CharField(max_length = 30)
     city = models.CharField(max_length = 20)
     phone = models.CharField(max_length =15)
-    genders = [
-        ('F', 'Femenino'),
-        ('M', 'Masculino')
-    ]
-    gender = models.CharField(max_length=1, choices=genders, default='F')
+    gender = models.CharField(max_length=15)
+    user_name = models.CharField(max_length=20, default='')
+    password = models.CharField(max_length=50, default='')
  
 
 class Category(models.Model):
