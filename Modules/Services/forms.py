@@ -90,3 +90,19 @@ class SignUpContractorForm(ModelForm):
 class Post_Category(ModelForm):
     class Meta:
         model = Category
+        fields = [
+            'name'
+        ]
+        labels={
+            'name':'Nombre categoria de su servicio',
+        }
+        widgets={
+            'name': forms.SelectMultiple(choices=
+            [
+                ('Manufactura','Manufactura'),
+                ('Cuidado del hogar','Cuidado_Hogar'),
+                ('Limpieza de automoviles','Limpieza_autos'),
+                ('Jardineria','Jardineria'),
+                ('Cuidado personal','personal')
+                ]),
+        }

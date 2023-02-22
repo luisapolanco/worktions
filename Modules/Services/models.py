@@ -29,12 +29,12 @@ class Contractor(models.Model):
  
 
 class Category(models.Model):
-    id = models.CharField(max_length=3, primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=25)
 
 
 class Service(models.Model):
-    id = models.CharField(max_length=6, primary_key=True)
+    id = models.BigAutoField(primary_key=True)
     contractor_id = models.ForeignKey(Contractor, null= False, blank=False, on_delete=models.CASCADE)
     category_id = models.ForeignKey(Category, null= False, blank=False, on_delete=models.CASCADE)
     description = models.CharField(max_length = 250),
