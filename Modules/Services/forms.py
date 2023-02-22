@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Customer, Contractor
+from .models import Customer, Contractor, Service, Category
 
 class SignUpCustomerForm(ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label='Contraseña', required=True)
@@ -85,3 +85,8 @@ class SignUpContractorForm(ModelForm):
             'gender' : forms.SelectMultiple(choices=[('Femenino', 'Femenino'), ('Masculino', 'Masculino')]),
             'user_name': forms.TextInput(),
         }
+
+#formulario servicios 
+class Post_Category(ModelForm):
+    class Meta:
+        model = Category
