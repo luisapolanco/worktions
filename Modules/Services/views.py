@@ -43,7 +43,7 @@ def signUpCustomer(request):
             customer.save()
 
             data['mensaje'] = 'Usuario creado correctamente'
-            redirect('home')
+            redirect('/home')
 
     return render(request, 'signup.html', data)
 
@@ -74,7 +74,7 @@ def signUpContractor(request):
             contractor.save()
 
             data['mensaje'] = 'Usuario creado correctamente'
-            redirect('home')
+            redirect('/home')
 
     return render(request, 'signup.html', data)
 
@@ -99,5 +99,5 @@ def postService(request):
             service.save()
 
             data['mensaje'] = 'Servicio agregado correctamente'
-            redirect('home')
+            redirect('/home')
     return render(request, 'service.html', data)

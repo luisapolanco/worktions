@@ -5,7 +5,7 @@ from django.db import models
 
 class Customer(models.Model):
     id = models.CharField(max_length=15, primary_key=True)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, default='')
     date_of_birth = models.DateField()
     address = models.CharField(max_length = 50)
     email = models.CharField(max_length =30)
