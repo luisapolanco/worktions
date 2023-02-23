@@ -6,22 +6,24 @@ from .models import Service
 
 # Create your views here.
 
+
 def home(request):
     searchTerm = request.GET.get('searchService')
     if searchTerm:
-        services= Service.objects.filter(id__icontains=searchTerm )
+        services = Service.objects.filter(id__icontains=searchTerm)
     else:
-        services= Service.objects.all()
-    return render(request, 'home.html',{'searchTerm':searchTerm,'services':services})
+        services = Service.objects.all()
+    return render(request, 'home.html', {'searchTerm': searchTerm, 'services': services})
+
 
 def signUpCustomer(request):
     data = {
-        'form' : SignUpCustomerForm()
+        'form': SignUpCustomerForm()
     }
 
     if request.method == 'POST':
         form2 = SignUpCustomerForm(request.POST)
-        breakpoint() 
+        breakpoint()
         if form2.is_valid():
             form2.save()
             data['mensaje'] = 'Usuario creado correctamente'
@@ -29,9 +31,10 @@ def signUpCustomer(request):
 
     return render(request, 'signup.html', data)
 
+
 def signUpContractor(request):
     data = {
-        'form' : SignUpContractorForm()
+        'form': SignUpContractorForm()
     }
 
     if request.method == 'POST':
