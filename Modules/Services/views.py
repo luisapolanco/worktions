@@ -1,13 +1,18 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
 import pdb
-
 from .forms import SignUpCustomerForm, SignUpContractorForm
+from .models import Service
 
 # Create your views here.
 
 def home(request):
-    return render(request, 'home.html')
+    searchTerm = request.GET.get('searchService')
+    if searchTerm:
+        services= Service.objects.filter(id__icontains=searchTerm )
+    else:
+        services= Service.objects.all()
+    return render(request, 'home.html',{'searchTerm':searchTerm,'services':services})
 
 def signUpCustomer(request):
     data = {

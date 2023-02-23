@@ -1,3 +1,4 @@
+
 from django.db import models
 
 # Create your models here.
@@ -15,6 +16,7 @@ class Customer(models.Model):
     password = models.CharField(max_length=50, default='')
 
 
+
 class Contractor(models.Model):
     id = models.CharField(max_length=15, primary_key=True)
     name = models.CharField(max_length=100)
@@ -26,7 +28,7 @@ class Contractor(models.Model):
     gender = models.CharField(max_length=15)
     user_name = models.CharField(max_length=20, default='')
     password = models.CharField(max_length=50, default='')
- 
+
 
 class Category(models.Model):
     id = models.CharField(max_length=3, primary_key=True)
@@ -37,5 +39,5 @@ class Service(models.Model):
     id = models.CharField(max_length=6, primary_key=True)
     contractor_id = models.ForeignKey(Contractor, null= False, blank=False, on_delete=models.CASCADE)
     category_id = models.ForeignKey(Category, null= False, blank=False, on_delete=models.CASCADE)
-    description = models.CharField(max_length = 250),
+    description = models.CharField(max_length = 250)
     images = models.ImageField()

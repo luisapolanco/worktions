@@ -1,6 +1,8 @@
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 from django.forms import ModelForm
 from .models import Customer, Contractor
+
 
 class SignUpCustomerForm(ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label='Contraseña', required=True)

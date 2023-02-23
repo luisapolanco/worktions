@@ -36,7 +36,6 @@ class Migration(migrations.Migration):
             name='Customer',
             fields=[
                 ('id', models.CharField(max_length=15, primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=100)),
                 ('date_of_birth', models.DateField()),
                 ('address', models.CharField(max_length=50)),
                 ('email', models.CharField(max_length=30)),
@@ -50,6 +49,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.CharField(max_length=6, primary_key=True, serialize=False)),
                 ('images', models.ImageField(upload_to='')),
+                ('description', models.CharField(max_length=50)),
                 ('category_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Services.category')),
                 ('contractor_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Services.contractor')),
             ],

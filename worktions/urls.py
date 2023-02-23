@@ -20,7 +20,7 @@ from django.contrib.auth.views import LoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home', servicesViews.home, name='home'),
+    path('home', servicesViews.home),
     path('signup-customer', servicesViews.signUpCustomer),
     path('signup-contractor', servicesViews.signUpContractor),
     path('login', LoginView.as_view(template_name='login.html')),
