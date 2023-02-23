@@ -91,22 +91,22 @@ class Post_Service(ModelForm):
     
     category_id = forms.ModelChoiceField(queryset=Category.objects.all())
     contractor_id =  forms.ModelChoiceField(queryset=Contractor.objects.all())
-    images = forms.ImageField()
         
     class Meta:
         model = Service
         fields = [
             'category_id',
             'contractor_id',
-            'description',
-            'images'
+            'title',
+            'description'
         ]
         labels={
             'category_id':'Elegir categoria ajustada a su servicio',
             'contractor_id':'Cedula',
-            'description':'Ingrese descripcion de su servicio a prestar',
-            'images': 'Imagen referencia'
+            'Title':'Titulo del servicio',
+            'description':'Ingrese descripcion de su servicio a prestar'
         }
         widgets={
             'description': forms.Textarea(attrs={"rows":5, "cols":50}),
+            'title': forms.TextInput()
         }

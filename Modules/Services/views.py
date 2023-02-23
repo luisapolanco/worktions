@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 from django.http import HttpRequest
 import pdb
 from .models import *
@@ -17,7 +19,6 @@ def signUpCustomer(request):
 
     if request.method == 'POST':
         form2 = SignUpCustomerForm(request.POST)
-        breakpoint() 
         if form2.is_valid():
             #form2.save()
             customer = Customer()
@@ -83,11 +84,12 @@ def postService(request):
             service.category_id = form2.cleaned_data['category_id']
             service.contractor_id = form2.cleaned_data['contractor_id']
             service.description = form2.cleaned_data['description']
-            service.images = form2.cleaned_data['images']
-            
+            #service.images = form2.cleaned_data.get('id_images')
+            #file_access = default_storage.save('media/servicios/', ContentFile(service.images.read()))
+            service.title = form2.cleaned_data['title']
 
             service.save()
 
             data['mensaje'] = 'Servicio agregado correctamente'
-            redirect('post_service')
+            redirect('home')
     return render(request, 'service.html', data)
