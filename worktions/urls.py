@@ -24,5 +24,5 @@ urlpatterns = [
     path('signup-customer', servicesViews.signUpCustomer),
     path('signup-contractor', servicesViews.signUpContractor),
     path('login', LoginView.as_view(template_name='login.html')),
-    #path('post-service', )
+    path('post-service', servicesViews.postService)
 ]

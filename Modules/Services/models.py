@@ -37,5 +37,5 @@ class Service(models.Model):
     id = models.BigAutoField(primary_key=True)
     contractor_id = models.ForeignKey(Contractor, null= False, blank=False, on_delete=models.CASCADE)
     category_id = models.ForeignKey(Category, null= False, blank=False, on_delete=models.CASCADE)
-    description = models.CharField(max_length = 250),
+    description = models.CharField(max_length = 250, default='')
     images = models.ImageField()
