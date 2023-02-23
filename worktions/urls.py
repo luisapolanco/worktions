@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path
 from Modules.Services import views as servicesViews
 from django.contrib.auth.views import LoginView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +26,8 @@ urlpatterns = [
     path('signup-customer', servicesViews.signUpCustomer),
     path('signup-contractor', servicesViews.signUpContractor),
     path('login', LoginView.as_view(template_name='login.html')),
+    path('post-service', servicesViews.postService)
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

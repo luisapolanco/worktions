@@ -6,10 +6,10 @@
 
 <h1>WORKTIONS</h1>
 
-<form action="" method="POST" style="padding: 200px;" >
+<form action="" method="POST" style="padding: 200px;" enctype="multipart/form-data">
     {% csrf_token %}
     <table class="table-primary">
-        {{form.as_table}}
+        {{form}}
 
     </table>
     <button type="submit" >Guardar</button>

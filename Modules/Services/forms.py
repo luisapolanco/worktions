@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms import ModelForm
-from .models import Customer, Contractor
+from .models import Customer, Contractor, Service, Category
 
 
 class SignUpCustomerForm(ModelForm):
@@ -86,4 +86,29 @@ class SignUpContractorForm(ModelForm):
             'phone': forms.TextInput(),
             'gender' : forms.SelectMultiple(choices=[('Femenino', 'Femenino'), ('Masculino', 'Masculino')]),
             'user_name': forms.TextInput(),
+        }
+
+#formulario servicios 
+class Post_Service(ModelForm):
+    
+    category_id = forms.ModelChoiceField(queryset=Category.objects.all())
+    contractor_id =  forms.ModelChoiceField(queryset=Contractor.objects.all())
+        
+    class Meta:
+        model = Service
+        fields = [
+            'category_id',
+            'contractor_id',
+            'title',
+            'description'
+        ]
+        labels={
+            'category_id':'Elegir categoria ajustada a su servicio',
+            'contractor_id':'Cedula',
+            'Title':'Titulo del servicio',
+            'description':'Ingrese descripcion de su servicio a prestar'
+        }
+        widgets={
+            'description': forms.Textarea(attrs={"rows":5, "cols":50}),
+            'title': forms.TextInput()
         }
