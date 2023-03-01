@@ -26,7 +26,9 @@ urlpatterns = [
     path('signup-customer', servicesViews.signUpCustomer),
     path('signup-contractor', servicesViews.signUpContractor),
     path('login', LoginView.as_view(template_name='login.html')),
-    path('post-service', servicesViews.postService)
+    path('post-service', servicesViews.postService,name="post-service"),
+    path('profile',servicesViews.profile ),
+    path('info_per', servicesViews.info_usuario,name="info_usuario"),
 ]
 
 if settings.DEBUG:

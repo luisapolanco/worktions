@@ -4,8 +4,10 @@ from django.core.files.base import ContentFile
 from django.http import HttpRequest
 import pdb
 from .models import *
-
+from django.contrib.auth.views import LoginView
 from .forms import SignUpCustomerForm, SignUpContractorForm, Post_Service
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -17,6 +19,12 @@ def home(request):
     else:
         services = Service.objects.all()
     return render(request, 'home.html', {'searchTerm': searchTerm, 'services': services})
+
+def profile(request):
+    return render(request, 'profile.html')
+
+def info_usuario(request):
+    return render(request, 'info_usuario.html')
 
 
 def signUpCustomer(request):
@@ -76,7 +84,7 @@ def signUpContractor(request):
             data['mensaje'] = 'Usuario creado correctamente'
             redirect('/home')
 
-    return render(request, 'signup.html', data)
+    return (request, 'signup.html', data)
 
 def postService(request):
     data={
@@ -84,7 +92,7 @@ def postService(request):
     }
 
     if request.method == 'POST':
-        form2 = Post_Service(request.POST)
+        form2 = Post_Service(request.POST,request.FILES)
         print(form2)
         if form2.is_valid():
             #form2.save()
@@ -95,9 +103,9 @@ def postService(request):
             #service.images = form2.cleaned_data.get('id_images')
             #file_access = default_storage.save('media/servicios/', ContentFile(service.images.read()))
             service.title = form2.cleaned_data['title']
-
             service.save()
-
             data['mensaje'] = 'Servicio agregado correctamente'
             redirect('/home')
     return render(request, 'service.html', data)
+
+
