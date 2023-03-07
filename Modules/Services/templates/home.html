@@ -8,38 +8,50 @@
 </head>
 <body>
     <h1>Worktions</h1>
-<form action="">
-    <div class="mb-3">
-        <label for="searchService" class="form-label">
-            Search for Service:
-        </label>
-        <input type="text" class="form-control" name="searchService" />
-    </div>
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
-<p>Searching for {{ searchTerm }} </p>
-<div class="row row-cols-1 row-cols-md-3 g-4">
-    {% for service in services %}
-    <div v-for="service in services" class="col">
-        <div class="card">
-            <img class="card-img-top" src="{{service.image.url}}" />
-            <h5>{{service.id}}</h5>
-            <p class="card-text">{{service.description}}</p>
-            <h6 style="color: grey";>{{service.category_id.name}}</h6>
+    <button type="button" class="btn btn-success"><a href="signup-contractor" style="color: white;">Registrar_Contratista</a></button>
+<button type="button" class="btn btn-success"><a href="signup-customer" style="color: white;">Registrar_Cliente</a></button>
+    <!--<button type="login" href="signup-contractor">Registrar_Contratista</button>-->
+<button type="button" class="btn btn-success"><a href="post-service" style="color: white;">Ingresar Servicio</a></button>
+<br>
+<br>
+<div style="align-items: center; display: flex; ">
+    <form action="">
+        <div class="mb-3">
+            <label for="searchService" class="form-label">
+                Buscar un servicio:
+            </label>
+            <input type="text" class="form-control" name="searchService" />
+        </div>
+        <button type="submit" class="btn btn-primary" >Search</button>
+    </form>
+</div>
 
+<div >
+    <br>
+    <p>Buscando  {{ searchTerm }} </p>
+    <br>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for service in services %}
+        <div v-for="service in services" class="col">
+            <div class="card">
+                <img class="card-img-top" src="{{service.image.url}}" />
+                <h5>{{service.title}}</h5>
+                <p class="card-text">{{service.description}}</p>
+                <h6>{{service.contractor_id}}</h6>
+                <h7 style="color: grey";>{{service.category_id.name}}</h7>
+    
+            </div>
         </div>
     </div>
+    {% endfor %}
+    </div>
+    <br />
+    <br />
 </div>
-{% endfor %}
-</div>
-<br />
-<br />
 
 
 
-    <a href="signup-contractor">Registrar_Contratista</a>
-    <a href="signup-customer">Registrar_Cliente</a>
-    <!--<button type="login" href="signup-contractor">Registrar_Contratista</button>-->
-    <a href="post-service">Ingresar Servicio</a>
+
+
 </body>
 </html>

@@ -13,7 +13,7 @@ from .forms import SignUpCustomerForm, SignUpContractorForm, Post_Service
 def home(request):
     searchTerm = request.GET.get('searchService')
     if searchTerm:
-        services = Service.objects.filter(id__icontains=searchTerm)
+        services = Service.objects.filter(title__icontains=searchTerm)
     else:
         services = Service.objects.all()
     return render(request, 'home.html', {'searchTerm': searchTerm, 'services': services})
