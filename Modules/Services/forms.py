@@ -89,7 +89,7 @@ class SignUpContractorForm(ModelForm):
         }
 
 #formulario servicios 
-class Post_Service(ModelForm):
+class Post_Service(forms.ModelForm):
     
     category_id = forms.ModelChoiceField(queryset=Category.objects.all())
     contractor_id =  forms.ModelChoiceField(queryset=Contractor.objects.all())
@@ -100,15 +100,17 @@ class Post_Service(ModelForm):
             'category_id',
             'contractor_id',
             'title',
-            'description'
+            'description',
+            #'images'
         ]
         labels={
             'category_id':'Elegir categoria ajustada a su servicio',
             'contractor_id':'Cedula',
             'Title':'Titulo del servicio',
-            'description':'Ingrese descripcion de su servicio a prestar'
+            'description':'Ingrese descripcion de su servicio a prestar',
+            #'images':'Muestra tus trabajos anteriores'
         }
         widgets={
             'description': forms.Textarea(attrs={"rows":5, "cols":50}),
-            'title': forms.TextInput()
+            'title': forms.TextInput(),
         }
