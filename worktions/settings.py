@@ -28,6 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL="/"
+LOGOUT_REDIRECT_URL = "/"
+
 
 # Application definition
 
@@ -101,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'Services.user'
+AUTH_USER_MODEL = 'Services.User'
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 

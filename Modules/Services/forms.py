@@ -1,10 +1,54 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.forms import ModelForm
 from .models import User,  Service, Category
 
 
-class SignUpUserForm(ModelForm):
+class CustomUserCreationForm(UserCreationForm):
+
+    class Meta: 
+        model = User
+        date_of_birth = forms.DateInput
+        fields =[
+            'username', 
+            'email', 
+            'name', 
+            'id', 
+            'date_of_birth', 
+            'address', 
+            'city', 
+            'phone', 
+            'gender'
+            ]
+#formulario servicios 
+class Post_Service(forms.ModelForm):
+    
+    category_id = forms.ModelChoiceField(queryset=Category.objects.all())
+    user_id =  forms.ModelChoiceField(queryset=User.objects.all())
+        
+    class Meta:
+        model = Service
+        fields = [
+            'category_id',
+            'user_id',
+            'title',
+            'description',
+            'images'
+        ]
+        labels={
+            'category_id':'Elegir categoria ajustada a su servicio',
+            'user_id':'Cedula',
+            'Title':'Titulo del servicio',
+            'description':'Ingrese descripcion de su servicio a prestar',
+            'images':'Muestra tus trabajos anteriores'
+        }
+        widgets={
+            'description': forms.Textarea(attrs={"rows":5, "cols":50}),
+            'title': forms.TextInput(),
+        }
+
+
+'''class SignUpUserForm(ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label='Contraseña', required=True)
     class Meta: 
         model = User
@@ -43,31 +87,4 @@ class SignUpUserForm(ModelForm):
             'phone': forms.TextInput(),
             'gender' : forms.SelectMultiple(choices=[('Femenino', 'Femenino'), ('Masculino', 'Masculino')]),
             'username': forms.TextInput(),
-        }
-
-#formulario servicios 
-class Post_Service(forms.ModelForm):
-    
-    category_id = forms.ModelChoiceField(queryset=Category.objects.all())
-    user_id =  forms.ModelChoiceField(queryset=User.objects.all())
-        
-    class Meta:
-        model = Service
-        fields = [
-            'category_id',
-            'user_id',
-            'title',
-            'description',
-            'images'
-        ]
-        labels={
-            'category_id':'Elegir categoria ajustada a su servicio',
-            'user_id':'Cedula',
-            'Title':'Titulo del servicio',
-            'description':'Ingrese descripcion de su servicio a prestar',
-            'images':'Muestra tus trabajos anteriores'
-        }
-        widgets={
-            'description': forms.Textarea(attrs={"rows":5, "cols":50}),
-            'title': forms.TextInput(),
-        }
+        }'''

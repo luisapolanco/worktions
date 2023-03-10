@@ -4,38 +4,50 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 # Create your models here.
 
 class UserManager(BaseUserManager):
-    def _create_user(self, username, email, name, id, city, is_staff, is_superuser, password=None):
+    def _create_user(self, email, username, name, id, city, password=None):
+        if not email:
+            raise ValueError('el usuario debe tener correo electronico')
         user = self.model(
-            username=username,
-            email=email,
-            name=name,
-            id= id,
-            city = city,
-            is_staff=is_staff,
-            is_superuser=is_superuser,            
+        username=username,
+        email=self.normalize_email(email),            
+        name=name,
+        id= id,
+        city = city            
         )
         user.set_password(password)
         user.save()
         return user
 
-    def create_user(self, username, email, name, id, city, is_staff, password):
-        return self._create_user(username, email, name, id, city, is_staff, False, password)
+    def create_user(self, email, username, name, id, city, password):
+        return self._create_user(username, email, name, id, city, password)
     
-    def create_superuser(self,username,email,name,  id, city, password):
-        return self._create_user(username, email, name, id, city, True, True, password)
+    def create_superuser(self ,email, username, name, id, city, password):
+        user= self._create_user(
+            email , 
+            username=username, 
+            name=name, 
+            id=id, 
+            city=city,
+            password=password,  
+            )
+        
+        user.usuario_administrador = True
+        user.save()
+
+        return user
 
 class User(AbstractBaseUser):
     username = models.CharField('Nombre de usuario',unique = True, max_length=100)
     email = models.EmailField('Correo Electrónico', max_length=254,unique = True)
-    name = models.CharField('Nombres', max_length=200, blank = True, null = True)    
+    name = models.CharField('Nombres', max_length=200, null=True)    
     id = models.CharField(max_length=15, primary_key=True)
-    date_of_birth = models.DateField()
-    address = models.CharField(max_length = 50)
-    city = models.CharField(max_length =20)
-    phone = models.CharField(max_length =15)
-    gender = models.CharField(max_length=15)
-    is_active = models.BooleanField(default = True)
-    is_staff = models.BooleanField(default = False)
+    date_of_birth = models.DateField(null=True)
+    address = models.CharField(max_length = 50, null=True)
+    city = models.CharField(max_length =20, null=True)
+    phone = models.CharField(max_length =15, null=True)
+    gender = models.CharField(max_length=15, null=True)
+    usuario_activo = models.BooleanField(default = True)
+    usuario_administrador = models.BooleanField(default = False)
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
@@ -52,7 +64,7 @@ class User(AbstractBaseUser):
     
     @property    
     def is_staff(self):
-        return self.is_staff
+        return self.usuario_administrador
     
 
 class Category(models.Model):

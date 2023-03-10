@@ -5,9 +5,10 @@ from django.http import HttpRequest
 import pdb
 from .models import *
 from django.contrib.auth.views import LoginView
-from .forms import SignUpUserForm, Post_Service
+from .forms import Post_Service, CustomUserCreationForm
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 
 # Create your views here.
 
@@ -29,7 +30,7 @@ def info_usuario(request):
     return render(request, 'info_usuario.html')
 
 
-def signUpUser(request):
+'''def signUpUser(request):
     data = {
         'form': SignUpUserForm()
     }
@@ -55,7 +56,22 @@ def signUpUser(request):
             data['mensaje'] = 'Usuario creado correctamente'
             redirect('/home')
 
-    return render(request, 'signup.html', data)
+    return render(request, 'signup.html', data)'''
+
+def signUp(request):
+    data = {
+        'form': CustomUserCreationForm()
+    }
+    if request.method == 'POST':
+        formulario = CustomUserCreationForm(data=request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            user = authenticate(username=formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"])
+            login(request, user)
+            return redirect(to="/home")
+        data["form"] = formulario
+
+    return render(request, 'registration/registro.html', data)
 
 def postService(request):
     data={
