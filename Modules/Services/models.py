@@ -67,16 +67,10 @@ class User(AbstractBaseUser):
         return self.usuario_administrador
     
 
-class Category(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=25)
-    def __str__(self) -> str:
-        return '{}'.format(self.name)
-
 class Service(models.Model):
     id = models.BigAutoField(primary_key=True)
     title= models.CharField(max_length= 50, default='')
     user_id = models.ForeignKey(User, null= False, blank=False, on_delete=models.CASCADE)
-    category_id = models.ForeignKey(Category, null= False, blank=False, on_delete=models.CASCADE)
+    category = models.CharField(max_length=100, default='', null= False, blank=False)
     description = models.CharField(max_length = 250, default='')
     images = models.ImageField(upload_to="services/images", null=True)

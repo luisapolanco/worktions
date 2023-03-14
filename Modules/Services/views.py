@@ -29,35 +29,6 @@ def profile(request):
 def info_usuario(request):
     return render(request, 'info_usuario.html')
 
-
-'''def signUpUser(request):
-    data = {
-        'form': SignUpUserForm()
-    }
-
-    if request.method == 'POST':
-        form2 = SignUpUserForm(request.POST)
-        if form2.is_valid():
-            #form2.save()
-            user = User()
-            user.id = form2.cleaned_data['id']
-            user.name = form2.cleaned_data['name']
-            user.date_of_birth = form2.cleaned_data['date_of_birth']
-            user.address = form2.cleaned_data['address']
-            user.email = form2.cleaned_data['email']
-            user.city = form2.cleaned_data['city']
-            user.phone = form2.cleaned_data['phone']
-            user.gender = form2.cleaned_data['gender']
-            user.username = form2.cleaned_data['user_name']
-            user.password = form2.cleaned_data['password']
-
-            user.save()
-
-            data['mensaje'] = 'Usuario creado correctamente'
-            redirect('/home')
-
-    return render(request, 'signup.html', data)'''
-
 def signUp(request):
     data = {
         'form': CustomUserCreationForm()
@@ -84,7 +55,7 @@ def postService(request):
         if form2.is_valid():
             #form2.save()
             service = Service()
-            service.category_id = form2.cleaned_data['category_id']
+            service.category = form2.cleaned_data['category']
             service.user_id = form2.cleaned_data['user_id']
             service.description = form2.cleaned_data['description']
             service.images = form2.cleaned_data.get('id_images')
