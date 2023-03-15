@@ -9,6 +9,8 @@ from .forms import Post_Service, CustomUserCreationForm
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from .forms import EditProfileForm
 
 # Create your views here.
 
@@ -26,8 +28,16 @@ def home(request):
 def profile(request):
     return render(request, 'profile.html')
 
-def info_usuario(request):
-    return render(request, 'info_usuario.html')
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+    else:
+        form = EditProfileForm(instance=request.user)
+    return render(request, 'edit_profile.html', {'form': form})
+
 
 def signUp(request):
     data = {

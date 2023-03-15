@@ -26,8 +26,8 @@ urlpatterns = [
     path('register/', servicesViews.signUp, name="register"),
     path('post-service', servicesViews.postService,name="post-service"),
     path('profile',servicesViews.profile ),
-    path('info_per', servicesViews.info_usuario,name="info_usuario"),
-    path('accounts/',include('django.contrib.auth.urls'), name="accounts/login")
+    path('accounts/',include('django.contrib.auth.urls'), name="accounts/login"),
+    path('edit_profile/', servicesViews.edit_profile,name="edit_profile"),
 ]
 
 if settings.DEBUG:
