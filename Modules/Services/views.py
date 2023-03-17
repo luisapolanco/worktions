@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 import pdb
 from .models import *
 from django.contrib.auth.views import LoginView
@@ -11,6 +11,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .forms import EditProfileForm
+import pandas as pd
+from .utils import get_plot 
+import matplotlib.pyplot as plt
+from django.db.models import Count
+
 
 # Create your views here.
 
@@ -75,5 +80,24 @@ def postService(request):
             data['mensaje'] = 'Servicio agregado correctamente'
             redirect('/home')
     return render(request, 'service.html', data)
+
+def analiticaTabla(request): 
+    #TABLAS
+    item=Service.objects.values("category").annotate(count=Count('category'))
+    df = pd.DataFrame(item)
+    dictS={
+        "df":df.to_html(),
+    }
+
+    return render(request,'analitica.html',context=dictS)
+    '''
+    #GRAFICO
+    items=Service.objects.all()
+    x=[x.category for x in items]
+    y=[y.user_id_id for y in items]
+    chart = get_plot(x,y,"category","ids","categorias")
+    return render(request,'analitica.html',{'chart':chart})'''
+
+    
 
 
