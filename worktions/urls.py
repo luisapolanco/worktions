@@ -28,6 +28,7 @@ urlpatterns = [
     path('profile',servicesViews.profile ),
     path('accounts/',include('django.contrib.auth.urls'), name="accounts/login"),
     path('edit_profile/', servicesViews.edit_profile,name="edit_profile"),
+    path('analitica/', servicesViews.analiticaTabla,name="analitica"),
 ]
 
 if settings.DEBUG:
