@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
-from django.http import HttpRequest, HttpResponse
-import pdb
+from django.http import Http404, HttpRequest, HttpResponse
 from .models import *
 from django.contrib.auth.views import LoginView
 from .forms import Post_Service, CustomUserCreationForm
@@ -15,6 +14,7 @@ import pandas as pd
 from .utils import get_plot 
 import matplotlib.pyplot as plt
 from django.db.models import Count
+from django.views import generic
 
 
 # Create your views here.
@@ -88,6 +88,7 @@ def analiticaTabla(request):
     dictS={
         "df":df.to_html(),
     }
+    print(dictS)
 
     return render(request,'analitica.html',context=dictS)
     '''
@@ -97,6 +98,24 @@ def analiticaTabla(request):
     y=[y.user_id_id for y in items]
     chart = get_plot(x,y,"category","ids","categorias")
     return render(request,'analitica.html',{'chart':chart})'''
+
+
+class serviceDetail( generic.DetailView ):
+    model = Service
+    template_name = 'service_detail.html'
+
+    def service_detail_view(request, pk):
+        try:
+            service_id=Service.objects.get(pk=pk)
+        except Service.DoesNotExist:
+            raise Http404("Este servicio no existe")
+
+        return render(
+            request,
+            'service_detail.html',
+            context={'service':service_id,}
+        )
+
 
     
 

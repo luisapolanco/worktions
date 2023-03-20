@@ -54,7 +54,7 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ['name','email', 'id', 'city']
 
     def __str__(self) -> str:
-        return f'{self.id}, {self.name}'
+        return f'{self.name}'
     
     def has_perm(self, perm, obj= None):
         return True
@@ -73,4 +73,4 @@ class Service(models.Model):
     user_id = models.ForeignKey(User, null= False, blank=False, on_delete=models.CASCADE)
     category = models.CharField(max_length=100, default='', null= False, blank=False)
     description = models.CharField(max_length = 250, default='')
-    images = models.ImageField(upload_to="services/images", null=True)
+    images = models.ImageField(upload_to="media/services/images", null=True)

@@ -23,11 +23,11 @@ class CustomUserCreationForm(UserCreationForm):
 #formulario servicios 
 class Post_Service(forms.ModelForm):
     category_choices = (
-        ("1", "Limpieza"),
-        ("2", "Manufactura"),
-        ("3", "Automotriz"),
-        ("4", "Cuidado_de_hogar"),
-         ("5", "Cuidado_de_mascotas")
+        ("Limpieza", "Limpieza"),
+        ("Manufactura", "Manufactura"),
+        ("Automotriz", "Automotriz"),
+        ("Cuidado_de_hogar", "Cuidado_de_hogar"),
+         ("Cuidado_de_mascotas", "Cuidado_de_mascotas")
     )
     category = forms.ChoiceField(choices=category_choices)
     user_id =  forms.ModelChoiceField(queryset=User.objects.all())

@@ -22,13 +22,14 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home', servicesViews.home),
+    path('home', servicesViews.home, name="home"),
     path('register/', servicesViews.signUp, name="register"),
     path('post-service', servicesViews.postService,name="post-service"),
     path('profile',servicesViews.profile ),
     path('accounts/',include('django.contrib.auth.urls'), name="accounts/login"),
     path('edit_profile/', servicesViews.edit_profile,name="edit_profile"),
     path('analitica/', servicesViews.analiticaTabla,name="analitica"),
+    path('service/<int:pk>/', servicesViews.serviceDetail.as_view(), name='service-detail'),
 ]
 
 if settings.DEBUG:
