@@ -1,116 +1,67 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.forms import ModelForm
-from .models import Customer, Contractor, Service, Category
+from .models import User,  Service
 
 
-class SignUpCustomerForm(ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, label='Contraseña', required=True)
+class CustomUserCreationForm(UserCreationForm):
+
     class Meta: 
-        model = Customer
-
-        fields = [
-            'id',
-            'name',
-            'date_of_birth',
-            'address',
-            'email',
-            'city',
-            'phone',
-            'gender',
-            'user_name',
-            'password'
-        ]
-        labels = {
-            'id' : 'Cédula',
-            'name' : 'Nombre',
-            'date_of_birth' : 'Fecha de nacimiento',
-            'address' : 'Dirección',
-            'email' : 'Correo electrónico',
-            'city' : 'Ciudad',
-            'phone' : 'Teléfono',
-            'gender': 'Género',
-            'user_name' : 'Nombre de usuario',
-            'password' : 'Contraseña',
-        }
-        widgets = {
-            'id': forms.TextInput(),
-            'name' : forms.TextInput(),
-            'date_of_birth' : forms.DateInput( ),
-            'address': forms.TextInput(),
-            'email' : forms.TextInput(),
-            'city': forms.TextInput(),
-            'phone': forms.TextInput(),
-            'gender' : forms.SelectMultiple(choices=[('Femenino', 'Femenino'), ('Masculino', 'Masculino')]),
-            'user_name': forms.TextInput(),
-        }
-
-
-
-class SignUpContractorForm(ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, label='Contraseña', required=True)
-    class Meta: 
-        model = Contractor
-
-        fields = [
-            'id',
-            'name',
-            'date_of_birth',
-            'address',
-            'email',
-            'city',
-            'phone',
-            'gender',
-            'user_name',
-            'password'
-        ]
-        labels = {
-            'id' : 'Cédula',
-            'name' : 'Nombre',
-            'date_of_birth' : 'Fecha de nacimiento',
-            'address' : 'Dirección',
-            'email' : 'Correo electrónico',
-            'city' : 'Ciudad',
-            'phone' : 'Teléfono',
-            'gender': 'Género',
-            'user_name' : 'Nombre de usuario',
-            'password' : 'Contraseña',
-        }
-        widgets = {
-            'id': forms.TextInput(),
-            'name' : forms.TextInput(),
-            'date_of_birth' : forms.DateInput( ),
-            'address': forms.TextInput(),
-            'email' : forms.TextInput(),
-            'city': forms.TextInput(),
-            'phone': forms.TextInput(),
-            'gender' : forms.SelectMultiple(choices=[('Femenino', 'Femenino'), ('Masculino', 'Masculino')]),
-            'user_name': forms.TextInput(),
-        }
-
+        model = User
+        date_of_birth = forms.DateInput
+        fields =[
+            'username', 
+            'email', 
+            'name', 
+            'id', 
+            'date_of_birth', 
+            'address', 
+            'city', 
+            'phone', 
+            'gender'
+            ]
 #formulario servicios 
 class Post_Service(forms.ModelForm):
-    
-    category_id = forms.ModelChoiceField(queryset=Category.objects.all())
-    contractor_id =  forms.ModelChoiceField(queryset=Contractor.objects.all())
+    category_choices = (
+        ("Limpieza", "Limpieza"),
+        ("Manufactura", "Manufactura"),
+        ("Automotriz", "Automotriz"),
+        ("Cuidado_de_hogar", "Cuidado_de_hogar"),
+         ("Cuidado_de_mascotas", "Cuidado_de_mascotas")
+    )
+    category = forms.ChoiceField(choices=category_choices)
+    user_id =  forms.ModelChoiceField(queryset=User.objects.all())
         
     class Meta:
         model = Service
         fields = [
-            'category_id',
-            'contractor_id',
+            'category',
+            'user_id',
             'title',
             'description',
-            #'images'
+            'images'
         ]
         labels={
-            'category_id':'Elegir categoria ajustada a su servicio',
-            'contractor_id':'Cedula',
+            'category':'Elegir categoria ajustada a su servicio',
+            'user_id':'Cedula',
             'Title':'Titulo del servicio',
             'description':'Ingrese descripcion de su servicio a prestar',
-            #'images':'Muestra tus trabajos anteriores'
+            'images':'Muestra tus trabajos anteriores'
         }
         widgets={
             'description': forms.Textarea(attrs={"rows":5, "cols":50}),
             'title': forms.TextInput(),
         }
+class EditProfileForm(forms.ModelForm):
+    username = forms.CharField(max_length=100, required=False)
+    email = forms.EmailField(max_length=254)
+    name = forms.CharField(max_length=200, required=False)
+    #id
+    address = forms.CharField(max_length=30, required=False)
+    city = forms.CharField(max_length=20, required=False)
+    phone= forms.CharField(max_length=15, required=False)
+    gender = forms.CharField(max_length=15, required=False)
+    
+    class Meta:
+        model = User
+        fields = ['username','email','name', 'address', 'city','phone','gender']
