@@ -17,6 +17,7 @@ from django.db.models import Count
 from django.views import generic
 
 
+
 # Create your views here.
 
 
@@ -31,7 +32,8 @@ def home(request):
     return render(request, 'home.html', {'searchTerm': searchTerm, 'services': services, 'num_visits': num_visits})
 
 def profile(request):
-    return render(request, 'profile.html')
+    services = Service.objects.filter(user_id=request.user.id)
+    return render(request, 'profile.html', {'services': services, 'user': request.user})
 
 @login_required
 def edit_profile(request):
@@ -67,16 +69,8 @@ def postService(request):
     if request.method == 'POST':
         form2 = Post_Service(request.POST,request.FILES)
         print(form2)
-        if form2.is_valid():
-            #form2.save()
-            service = Service()
-            service.category = form2.cleaned_data['category']
-            service.user_id = form2.cleaned_data['user_id']
-            service.description = form2.cleaned_data['description']
-            service.images = form2.cleaned_data.get('id_images')
-            #file_access = default_storage.save('media/servicios/', ContentFile(service.images.read()))
-            service.title = form2.cleaned_data['title']
-            service.save()
+        if form2.is_valid():        
+            form2.save()
             data['mensaje'] = 'Servicio agregado correctamente'
             redirect('/home')
     return render(request, 'service.html', data)
@@ -114,6 +108,22 @@ class serviceDetail( generic.DetailView ):
             request,
             'service_detail.html',
             context={'service':service_id,}
+        )
+    
+class userDetail( generic.DetailView ):
+    model = User
+    template_name = 'user_detail.html'
+
+    def user_detail_view(request, pk):
+        try:
+            user_id=User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404("Este usuario no existe")
+
+        return render(
+            request,
+            'user_detail.html',
+            context={'user_info':user_id,}
         )
 
 

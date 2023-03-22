@@ -19,7 +19,21 @@ class CustomUserCreationForm(UserCreationForm):
             'city', 
             'phone', 
             'gender'
-            ]
+        ]
+        labels={
+            'username':'Nombre de usuario:', 
+            'email':'Correo electrónico', 
+            'name':'Nombres', 
+            'id':'Cedula', 
+            'date_of_birth':'Fecha de nacimiento', 
+            'address':'Dirección', 
+            'city':'Ciudad', 
+            'phone' : 'Telefono',
+            'gender': 'Género'
+        }
+        widgets={
+            'date_of_birth': forms.DateInput()
+        }
 #formulario servicios 
 class Post_Service(forms.ModelForm):
     category_choices = (

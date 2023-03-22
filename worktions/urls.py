@@ -30,6 +30,7 @@ urlpatterns = [
     path('edit_profile/', servicesViews.edit_profile,name="edit_profile"),
     path('analitica/', servicesViews.analiticaTabla,name="analitica"),
     path('service/<int:pk>/', servicesViews.serviceDetail.as_view(), name='service-detail'),
+    path('user/profile/<int:pk>/', servicesViews.userDetail.as_view(), name='user-detail'),
 ]
 
 if settings.DEBUG:

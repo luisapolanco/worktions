@@ -12,22 +12,14 @@
             <button type="button" class="btn-close" aria-label="Close" style="align-items: start; display: flex;" onclick="window.history.back()"></button>
             
             <br>
-            <h1>{{service.title}}</h1>
+            <h1>{{user_info.name}}</h1>
             <br>
-            <p>{{service.description}}</p>
-            <br>
-            <h4>{{service.user_id}}</h4>
-            <br>
-            <h7 style="color: grey";>Categoría: {{service.category}}</h7> 
+            <p>{{user_info.city}}</p>
             <br>
             <br>
-            <button  type="button" class="btn btn-primary"><a href="{% url 'user-detail' service.user_id.id %}" style="color: white;">Ver perfil</a></button>
-        </div>
-        <div class="col">
-            <div style="">
-                <img  class="img-thumbnail"  src="{{service.images.url}}" />
-            </div>
-        </div>
+            <br>
+            <br>
+        </div>       
     </div>    
 </body>
 
