@@ -15,6 +15,8 @@ from .utils import get_plot
 import matplotlib.pyplot as plt
 from django.db.models import Count
 from django.views import generic
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 
@@ -116,14 +118,15 @@ class userDetail( generic.DetailView ):
 
     def user_detail_view(request, pk):
         try:
-            user_id=User.objects.get(pk=pk)
+            user=User.objects.get(pk=pk)
+            services = Service.objects.filter(user_id=user.id)
         except User.DoesNotExist:
             raise Http404("Este usuario no existe")
 
         return render(
             request,
             'user_detail.html',
-            context={'user_info':user_id,}
+            context={'user_info':user, 'services': services}
         )
 
 

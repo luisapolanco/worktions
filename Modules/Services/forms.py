@@ -66,6 +66,8 @@ class Post_Service(forms.ModelForm):
             'description': forms.Textarea(attrs={"rows":5, "cols":50}),
             'title': forms.TextInput(),
         }
+
+        
 class EditProfileForm(forms.ModelForm):
     username = forms.CharField(max_length=100, required=False)
     email = forms.EmailField(max_length=254)
