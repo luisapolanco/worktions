@@ -22,7 +22,7 @@
             <div class="col-8">
                 <button type="submit"  class="btn btn-primary" id="mostrar_informacion">Informacion Personal</button>
                 <button type="submit" class="btn btn-primary" id="mostrar_formulario">Agregar Servicio</button>
-                <div id="formularios" ></div>
+                <div id="informacion" method="POST" enctype="multipart/form-data" ></div>
             </div> 
             <br>  
             <br>   
@@ -56,8 +56,8 @@
                     type: "GET",
                     dataType: "html",
                     success: function (respuesta) {
-                        $('#formularios').html(respuesta);
-                        $('#formularios form').submit(function (evento) {
+                        $('#informacion').html(respuesta);
+                        $('#informacion form').submit(function (evento) {
                             evento.preventDefault();
                             $.ajax({
                                 url: "{% url 'edit_profile' %}",
@@ -84,17 +84,22 @@
                     type: "GET",
                     dataType: "html",
                     success: function (respuesta) {
-                        $('#formularios').html(respuesta);
-                        $('#formularios form').submit(function (evento) {
+                        $('#informacion').html(respuesta);
+                        $('#informacion form').submit(function (evento) {
                             evento.preventDefault();
+                            var formData = new FormData(this);
                             $.ajax({
                                 url: "{% url 'post-service' %}",
                                 type: "POST",
-                                data: $(this).serialize(),
-                                dataType: "json",
+                                data: formData,
                                 success: function (resultado) {
                                     alert(resultado.mensaje);
-                                }
+                                },
+                                error: function (resultado) {
+                                    alert(resultado.mensaje);},
+                                cache: false,
+                                contentType: false,
+                                processData: false
                             });
                         });
                     }
