@@ -1,0 +1,63 @@
+
+    <style>
+        .div_main{
+            width: 70%;
+            margin: 30px 15% 90px ;
+            height: 50px auto ;
+            display: block;
+            align-content: center;
+        }
+
+        .div_inbox{
+            width: 90%;
+            margin: 10px auto;
+            background: rgba(0, 174, 14, 0.581);
+            color: aliceblue;
+            border-radius: 5px;
+            border: 1px solid grey;
+            padding: 5px;
+        }
+
+        body{
+            background: whitesmoke;
+        }
+
+    </style>
+        <div class="div_main">
+            <h1>
+                Bienvenido {{ user }} a tus mensajes directos
+            </h1>
+            {% for inbox in inbox %}
+            <div class="div_inbox">
+                {% for second_user in inbox.userchannel_set.all  %}
+                    {% if second_user.user == request.user %}
+                    {% else %}
+                        <a href="{% url 'detailms' second_user.user.username %}">
+                            <strong>
+                                {{second_user.user}}
+                            </strong>
+                            <br>
+                            <small style="">({{inbox.channelmessage_set.count}}) Mensajes</small>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+    
+                {% if inbox.channelmessage_set.count != 0 %}
+                    <div  class="div_ms_inbox">
+                        {% with last_message=inbox.channelmessage_set.last %}
+                        <p>Mensaje: {{last_message.text}}</p>
+                        <p>Usuario: {{last_message.user}} </p>
+                        {% endwith %}
+                    </div>
+                {% else %}
+                <p>
+                    No hay mensajes en tu inbox
+                </p>
+                {% endif %}
+                
+            </div>
+            {% empty %}
+            <h2>Inbox vacío</h2>
+            {% endfor %}
+        </div>
+        

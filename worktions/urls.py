@@ -31,6 +31,7 @@ urlpatterns = [
     path('analitica/', servicesViews.analiticaTabla,name="analitica"),
     path('service/<int:pk>/', servicesViews.serviceDetail.as_view(), name='service-detail'),
     path('user/profile/<str:pk>/', servicesViews.userDetail.user_detail_view, name='user-detail'),
+    path('', include('chat.urls'))
 ]
 
 if settings.DEBUG:

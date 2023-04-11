@@ -1,0 +1,155 @@
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    #ms_container{
+        width: 100%;
+        background: rgb(164, 163, 164);
+        height: calc(70vh);
+        margin: 5px 0;
+        overflow-y: auto ;
+        border-bottom: 1px solid forestgreen;        
+    }
+
+    .div_ms{
+        margin: 1.2rem auto;
+        width: 35%;
+        padding: 0.2rem 0.6rem 0.2rem 0.6rem;
+
+    }
+
+    .div_main{
+            width: 60%;
+            height: 50px auto ;
+            margin: 30px 20% ;
+            background: rgba(128, 128, 128, 0.499);
+    }
+    .my_mss{
+        margin-right: 5px;
+        background-color: rgb(29, 161, 242);
+        color: white;
+        border-bottom-left-radius:16px ;
+        border-top-left-radius:16px ;
+        border-top-right-radius:16px ;
+    }
+    .your_ms{
+        background: rgb(41, 156, 0);
+        color: white;
+        margin-left: 5px;
+        border-bottom-right-radius:16px ;
+        border-top-left-radius:16px ;
+        border-top-right-radius:16px ;
+    }
+
+    .div_form_ms{
+        width: 100%;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-left: -1px;
+        border: 1px solid rgb(11, 11, 11);
+    }
+
+    #id_message{
+       display: block; 
+       padding: 6px 12px;
+       margin-left: 1%;
+       margin-right: 2%;
+       width: 98%;
+       min-width: 98%;
+       max-width: 98%;
+       height: 70px;
+       min-height: 70px;
+       max-height: 70px;
+       box-sizing: border-box;
+       font-size: 14px;
+       color: black;
+       border: 1pz solid green;
+       border-radius: 4px;
+    }
+
+    .btn_send{
+        background: green;
+        color: aliceblue;
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        border-bottom: 5px solid #6d932b;
+        width: 150px;
+        cursor: pointer;
+        display: block;
+        margin: 10px auto;
+        font-size: 13px ;
+        transition: 0.3;
+    }
+</style>
+<div class="div_main">
+    <h3>Identificador del canal: {{ object.id}}</h3>
+        <h1>Mensajes del canal</h1>
+        <div id="ms_container">
+            {% for message in object.channelmessage_set.all %}
+            <div class="div_ms {% if request.user == message.user %}my_mss{% else %}your_ms {% endif %}">
+                <small>{{message.user}}</small>
+                <p>{{message.text}}</p>
+                <small>{{message.time}}</small>
+            </div>                
+            {% endfor %}
+        </div >
+        <div class="div_form_ms">
+            <form id="form_submit" action="{{ request.path }}" method="POST">
+                {% csrf_token %}
+                <strong>{{form.as_p}}</strong>
+    
+                <button type="submit" class="btn_send">Enviar</button>
+            </form>
+        </div>
+</div>
+        
+            
+        <script>
+            const msgForm = document.getElementById("form_submit")
+            const msgContainer = document.getElementById("ms_container")
+
+            
+            msgForm.addEventListener("submit", (event) => {
+                event.preventDefault()
+
+                const targetDate = event.target
+                const formData = new FormData(targetDate)
+
+                const xhr = new XMLHttpRequest()
+
+                const endpoint = msgForm.getAttribute("action")
+                const method = msgForm.getAttribute("method")
+                xhr.open(method, endpoint)
+
+                xhr.responseType = 'json'
+
+                xhr.setRequestHeader("HTTP_X_REQUESTED_WITH", "XMLHttpRequest")
+		        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+
+                xhr.onload = () => {
+                    console.log(xhr.status, xhr.response)
+
+                    const responseData = xhr.response
+                    let currentMessageHtml = msgContainer.innerHTML
+                    currentMessageHtml += `<div class=''><b></b><p>${responseData.mensaje}</p></div>`                    msgContainer.innerHTML = currentMessageHtml
+                    msgForm.reset()
+                    // }else if(xhr.status == 400){
+                    //     console.log(xhr.response)
+                    // }else{
+                    //     console.log(xhr.status, xhr.response)
+                    //     alert("Ha ocurrido un error, intenta luego")
+                    // }
+                }
+
+                xhr.send(formData)
+            })
+        </script>
+    </body>
+</html>
+
+
+
+

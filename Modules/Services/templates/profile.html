@@ -87,14 +87,20 @@
                         $('#formularios').html(respuesta);
                         $('#formularios form').submit(function (evento) {
                             evento.preventDefault();
+                            var formData = new FormData(this);
                             $.ajax({
                                 url: "{% url 'post-service' %}",
                                 type: "POST",
-                                data: $(this).serialize(),
-                                dataType: "json",
+                                data: formData,
                                 success: function (resultado) {
                                     alert(resultado.mensaje);
-                                }
+                                },
+                                error: function(resultado){
+                                    alert(resultado.mensaje);},
+                                cache: false,
+                                contentType: false,
+                                processData: false
+                                
                             });
                         });
                     }
