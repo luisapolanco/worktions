@@ -64,14 +64,6 @@ class ChannelDetailView(LoginRequiredMixin, ChannelFormMixin, DetailView):
 
         return context
 
-
-    
-    # def get_queryset(self):
-    #     user = self.request.user
-    #     username = user.username
-
-    #     qs = Channel.objects.all().filter_by_username(username)
-    #     return qs
 class DetailMs(LoginRequiredMixin, ChannelFormMixin, DetailView):
     template_name = 'channel_detail.html'
     

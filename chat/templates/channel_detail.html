@@ -5,36 +5,35 @@
     }
     #ms_container{
         width: 100%;
-        background: rgb(164, 163, 164);
+        background: #12172d;
         height: calc(70vh);
         margin: 5px 0;
-        overflow-y: auto ;
-        border-bottom: 1px solid forestgreen;        
+        overflow-y: auto ;   
     }
 
     .div_ms{
         margin: 1.2rem auto;
-        width: 35%;
+        width: 45%;
         padding: 0.2rem 0.6rem 0.2rem 0.6rem;
-
     }
 
     .div_main{
-            width: 60%;
-            height: 50px auto ;
+            width: 50%;
+            height: 30px auto ;
             margin: 30px 20% ;
-            background: rgba(128, 128, 128, 0.499);
+            background: #050d21;
+            color: white;
     }
     .my_mss{
         margin-right: 5px;
-        background-color: rgb(29, 161, 242);
+        background-color: #477eff;
         color: white;
         border-bottom-left-radius:16px ;
         border-top-left-radius:16px ;
         border-top-right-radius:16px ;
     }
     .your_ms{
-        background: rgb(41, 156, 0);
+        background: #576c99;
         color: white;
         margin-left: 5px;
         border-bottom-right-radius:16px ;
@@ -69,13 +68,12 @@
     }
 
     .btn_send{
-        background: green;
+        background: #477eff;
         color: aliceblue;
         padding: 5px 10px;
         border-radius: 5px;
         border: none;
         outline: none;
-        border-bottom: 5px solid #6d932b;
         width: 150px;
         cursor: pointer;
         display: block;
@@ -83,28 +81,50 @@
         font-size: 13px ;
         transition: 0.3;
     }
-</style>
-<div class="div_main">
-    <h3>Identificador del canal: {{ object.id}}</h3>
-        <h1>Mensajes del canal</h1>
-        <div id="ms_container">
-            {% for message in object.channelmessage_set.all %}
-            <div class="div_ms {% if request.user == message.user %}my_mss{% else %}your_ms {% endif %}">
-                <small>{{message.user}}</small>
-                <p>{{message.text}}</p>
-                <small>{{message.time}}</small>
-            </div>                
-            {% endfor %}
-        </div >
-        <div class="div_form_ms">
-            <form id="form_submit" action="{{ request.path }}" method="POST">
-                {% csrf_token %}
-                <strong>{{form.as_p}}</strong>
+
+    .form_ms{
+        background-color: #cecccc;
+        color: white;
+    }
+    #form_submit{
+        color: white;
+    }
     
-                <button type="submit" class="btn_send">Enviar</button>
-            </form>
-        </div>
-</div>
+</style>
+{% extends './base.html' %}
+{% block content %}
+<body style="background-color: #12172d;">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    
+    <div class="div_main">
+            <h3>Identificador del canal: {{ object.id}}</h3>
+            <h1>Mensajes del canal</h1>
+            <div id="ms_container">
+                {% for message in object.channelmessage_set.all %}
+                <div class="div_ms {% if request.user == message.user %}my_mss{% else %}your_ms {% endif %}">
+                    <small>{{message.user}}</small>
+                    <p>{{message.text}}</p>
+                    <small>{{message.time}}</small>
+                </div>                
+                {% endfor %}
+            </div >
+            <div class="div_form_ms">
+                <form id="form_submit" action="{{ request.path }}" method="POST">
+                    {% csrf_token %}
+                    <strong >{{form.as_p}}</strong>
+        
+                    <button type="submit" class="btn_send">Enviar</button>
+                </form>
+            </div>
+    </div>
+</body>
+
+{% endblock %}
         
             
         <script>

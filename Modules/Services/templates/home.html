@@ -1,3 +1,4 @@
+{% extends "base.html" %}
 <!DOCTYPE html>
 <html>
 
@@ -8,22 +9,19 @@
         crossorigin="anonymous">
 </head>
 
+
+{% block content %}
 <body>
+    
     <div class="container mb-3">
         <div class="row">
             <div>
                 <div class="card" style="display: flex; text-align: center;">
                     <div class="card-body">
-                        <h1>Worktions</h1>
-                        {% if user.is_authenticated %}
-                        
-                        <button type="button" class="btn btn-success"><a href="post-service" style="color: white;">Ingresar Servicio</a></button>
-                        <button type="button" class="btn btn-success"><a href="profile" style="color: white;">Perfil @{{ user.username}}</a></button>
-                        <button type="button" class="btn btn-success"><a href="{% url 'logout' %}" style="color: white;">Cerrar Sesion</a></button>
-                        {% else %}
-                        <button type="button" class="btn btn-success"><a href="register" style="color: white;">Registro</a></button>
-                        <button type="button" class="btn btn-success"><a href="accounts/login" style="color: white;">Iniciar sesión</a></button>
-                        {% endif %}
+                    <br>
+                    <br>
+                    <br>
+                    <br>                       
                     <br>
                     <br>
                     <div style=" display: flex; align-items: center; justify-content: center;">
@@ -72,7 +70,6 @@
                         
                     </div>
                     {% endfor %}
-                        <!-- <p>Has visitado esta página {{ num_visits }}</p> -->
                         <br />
                         <br />
                     </div>
@@ -82,5 +79,6 @@
     </div>
              
 </body>
+{% endblock %}
 
 </html>

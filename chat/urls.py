@@ -7,5 +7,5 @@ urlpatterns= [
     re_path(UUID_CANAL_REGEX, ChannelDetailView.as_view() ),
     path("chat/<str:username>", private_messages),
     path("ms/<str:username>", DetailMs.as_view(), name="detailms"),
-    path("", Inbox.as_view(), name="inbox")
+    path("inbox", Inbox.as_view(), name="inbox")
 ]
