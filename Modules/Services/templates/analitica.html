@@ -1,16 +1,133 @@
-<!DOCTYPE html>
-<html>
+{% load static %}
+<!doctype html>
+<html lang="en">
+
 <head>
-    <title>My Page</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <link type="text/css" href='{% static "Services\css\analitica.css" %}' rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- semantic UI -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.js" integrity="sha512-Cv3WnEz5uGwmTnA48999hgbYV1ImGjsDWyYQakowKw+skDXEYYSU+rlm9tTflyXc8DbbKamcLFF80Cf89f+vOQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
 </head>
-<body><!--
-    <div>
-        <h1>usuarios y su servicio</h1>
-        <img src="data:image/png;base64,{{chart|safe}}"
-    </div>-->
-    <div>        
-        <h1>Uso de los servicios</h1>
-        {{ df|safe }}
+
+<body>
+
+    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+        <h2>Categoria mas popular</h2>
+        <canvas id="categories"></canvas>
     </div>
+</br>
+</br>
+
+    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+        <h2>MenvsWomen</h2>
+        <canvas id="MenvsWomen"></canvas>
+    </div>
+</br>
+</br>
+
+    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+        <h2>Density by city</h2>
+        <canvas id="cities"></canvas>
+    </div>
+</br>
+</br>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var df = {{ df | safe }};
+        var df1 = {{ df1 | safe }};
+        const ct1 = document.getElementById('categories');
+
+        new Chart(ct1, {
+            type: 'bar',
+            data: {
+                labels: df1,
+                datasets: [{
+                    label: '# de trabajadores',
+                    data: df,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                plugins: {
+                    colors: {
+                        forceOverride: true
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                    barPercentage: 0.5
+                }
+            }
+        });
+    </script>
+
+    <script>
+        var genderData = {{ genderData | safe }};
+        var genderLabel = {{ genderLabel | safe }};
+        const ct2 = document.getElementById('MenvsWomen');
+
+        new Chart(ct2, {
+            type: 'doughnut',
+            data: {
+                labels: genderLabel,
+                datasets: [{
+                    label: '# de personas',
+                    data: genderData,
+                }]
+            },
+            options: {
+                plugins: {
+                    colors: {
+                        forceOverride: true
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                }
+            }
+        });
+    </script>
+    
+
+<script>
+    var cityData = {{ cityData | safe }};
+    var cityLabel = {{ cityLabel | safe }};
+    const ct3 = document.getElementById('cities');
+
+    new Chart(ct3, {
+        type: 'polarArea',
+        data: {
+            labels: cityLabel,
+            datasets: [{
+                label: '# de personas',
+                data: cityData,
+            }]
+        },
+        options: {
+            plugins: {
+                colors: {
+                    forceOverride: true
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                },
+            }
+        }
+    });
+</script>
+
+
 </body>
+
 </html>

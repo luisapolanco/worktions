@@ -11,13 +11,13 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .forms import EditProfileForm
 import pandas as pd
-from .utils import get_plot 
+from .utils import get_plot
 import matplotlib.pyplot as plt
-from django.db.models import Count
+from django.db.models import Count, Avg, Q,Subquery, OuterRef,Sum
 from django.views import generic
 from django.contrib.auth import get_user_model
+from collections import OrderedDict
 User = get_user_model()
-
 
 
 # Create your views here.
@@ -33,9 +33,11 @@ def home(request):
         services = Service.objects.all()
     return render(request, 'home.html', {'searchTerm': searchTerm, 'services': services, 'num_visits': num_visits})
 
+
 def profile(request):
     services = Service.objects.filter(user_id=request.user.id)
     return render(request, 'profile.html', {'services': services, 'user': request.user})
+
 
 @login_required
 def edit_profile(request):
@@ -56,69 +58,94 @@ def signUp(request):
         formulario = CustomUserCreationForm(data=request.POST)
         if formulario.is_valid():
             formulario.save()
-            user = authenticate(username=formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"])
+            user = authenticate(
+                username=formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"])
             login(request, user)
             return redirect(to="/home")
         data["form"] = formulario
 
     return render(request, 'registration/registro.html', data)
 
+
 def postService(request):
-    data={
-        'form': Post_Service() 
+    data = {
+        'form': Post_Service()
     }
 
     if request.method == 'POST':
-        form2 = Post_Service(request.POST,request.FILES)
+        form2 = Post_Service(request.POST, request.FILES)
         print(form2)
-        if form2.is_valid():        
+        if form2.is_valid():
             form2.save()
             data['mensaje'] = 'Servicio agregado correctamente'
             redirect('/home')
     return render(request, 'service.html', data)
 
-def analiticaTabla(request): 
-    #TABLAS
-    item=Service.objects.values("category").annotate(count=Count('category'))
-    df = pd.DataFrame(item)
-    dictS={
-        "df":df.to_html(),
+
+def analiticaGrafica(request):
+    # consultas
+    categories = Service.objects.values(
+        "category").annotate(count=Count('category'))
+    df = pd.DataFrame(categories)
+    df1 = df.category.tolist()
+    df = df['count'].tolist()
+    dictC = {
+        "df": df,
+        "df1": df1,
     }
-    print(dictS)
 
-    return render(request,'analitica.html',context=dictS)
-    '''
-    #GRAFICO
-    items=Service.objects.all()
-    x=[x.category for x in items]
-    y=[y.user_id_id for y in items]
-    chart = get_plot(x,y,"category","ids","categorias")
-    return render(request,'analitica.html',{'chart':chart})'''
+    genders = User.objects.values("gender").annotate(count=Count('gender'))
+    genderData = pd.DataFrame(genders)
+    genderLabel = genderData.gender.tolist()
+    genderData = genderData['count'].tolist()
+    dictG = {
+        "genderData": genderData,
+        "genderLabel": genderLabel,
+    }
+
+    cities = User.objects.values("city").annotate(count=Count('city'))
+    cityData = pd.DataFrame(cities)
+    cityLabel = cityData.city.tolist()
+    cityData = cityData['count'].tolist()
+    dictCi = {
+        "cityData": cityData,
+        "cityLabel": cityLabel,
+    }
 
 
-class serviceDetail( generic.DetailView ):
+    dictS = {
+        **dictC,
+        **dictG,
+        **dictCi,
+            }   
+
+    return render(request, 'analitica.html', context=dictS)
+
+
+class serviceDetail(generic.DetailView):
     model = Service
     template_name = 'service_detail.html'
 
     def service_detail_view(request, pk):
         try:
-            service_id=Service.objects.get(pk=pk)
+            service_id = Service.objects.get(pk=pk)
         except Service.DoesNotExist:
             raise Http404("Este servicio no existe")
 
         return render(
             request,
             'service_detail.html',
-            context={'service':service_id,}
+            context={'service': service_id, }
         )
-    
-class userDetail( generic.DetailView ):
+
+
+class userDetail(generic.DetailView):
     model = User
     template_name = 'user_detail.html'
 
     def user_detail_view(request, pk):
         try:
-            user=User.objects.get(pk=pk)
+            user = User.objects.get(pk=pk)
             services = Service.objects.filter(user_id=user.id)
         except User.DoesNotExist:
             raise Http404("Este usuario no existe")
@@ -126,10 +153,5 @@ class userDetail( generic.DetailView ):
         return render(
             request,
             'user_detail.html',
-            context={'user_info':user, 'services': services}
+            context={'user_info': user, 'services': services}
         )
-
-
-    
-
-
