@@ -28,7 +28,7 @@ urlpatterns = [
     path('profile',servicesViews.profile ),
     path('accounts/',include('django.contrib.auth.urls'), name="accounts/login"),
     path('edit_profile/', servicesViews.edit_profile,name="edit_profile"),
-    path('analitica/', servicesViews.analiticaTabla,name="analitica"),
+    path('analitica/', servicesViews.analiticaGrafica,name="analitica"),
     path('service/<int:pk>/', servicesViews.serviceDetail.as_view(), name='service-detail'),
     path('user/profile/<str:pk>/', servicesViews.userDetail.user_detail_view, name='user-detail'),
     path('', include('chat.urls'))
