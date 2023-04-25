@@ -24,14 +24,12 @@ User = get_user_model()
 
 
 def home(request):
-    num_visits = request.session.get('num_visits', 0)
-    request.session['num_visits'] = num_visits + 1
     searchTerm = request.GET.get('searchService')
     if searchTerm:
         services = Service.objects.filter(title__icontains=searchTerm)
     else:
         services = Service.objects.all()
-    return render(request, 'home.html', {'searchTerm': searchTerm, 'services': services, 'num_visits': num_visits})
+    return render(request, 'home.html', {'searchTerm': searchTerm, 'services': services})
 
 
 def profile(request):

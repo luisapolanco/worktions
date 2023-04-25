@@ -32,7 +32,7 @@ class ChannelFormMixin(FormMixin):
         if form.is_valid():
             channel = self.get_object()
             user= self.request.user
-            message = form.cleaned_data.get("message")
+            message = form.cleaned_data.get("mensaje")
             channel_obj = ChannelMessage.objects.create(channel = channel, user= user, text=message )
             # if request.is_ajax():
             #     return JsonResponse({'mensaje': channel_obj.text,

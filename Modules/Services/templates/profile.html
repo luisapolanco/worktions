@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
 
 <!DOCTYPE html>
@@ -40,7 +41,7 @@
                             <p>{{service.description}}</p>
                             <h6>{{service.user_id}}</h6>
                             <h7 style="color: grey";>{{service.category}}</h7> 
-                            <button type="button" class="btn btn-success"><a href="{% url 'service-detail' service.id %}" style="color: white;">Detalle</a></button>                       
+                            <button type="button" class="btn" style="background-color: #050d21;"><a href="{% url 'service_detail' service.id %}" style="color: white;">Detalle</a></button>                       
                         </div>                                   
                     </div>
                     <br>

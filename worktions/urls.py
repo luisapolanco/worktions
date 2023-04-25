@@ -20,16 +20,17 @@ from django.contrib.auth.views import LoginView
 from django.conf import settings
 from django.conf.urls.static import static
 
+# app_name = 'worktions'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home', servicesViews.home, name="home"),
     path('register/', servicesViews.signUp, name="register"),
     path('post-service', servicesViews.postService,name="post-service"),
-    path('profile',servicesViews.profile ),
+    path('profile',servicesViews.profile, name="profile" ),
     path('accounts/',include('django.contrib.auth.urls'), name="accounts/login"),
     path('edit_profile/', servicesViews.edit_profile,name="edit_profile"),
     path('analitica/', servicesViews.analiticaGrafica,name="analitica"),
-    path('service/<int:pk>/', servicesViews.serviceDetail.as_view(), name='service-detail'),
+    path('service/<int:pk>/', servicesViews.serviceDetail.as_view(), name='service_detail'),
     path('user/profile/<str:pk>/', servicesViews.userDetail.user_detail_view, name='user-detail'),
     path('', include('chat.urls'))
 ]

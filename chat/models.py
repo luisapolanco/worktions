@@ -41,7 +41,7 @@ class ChannelManager(models.Manager):
     def get_or_create_current_user_channel(self, user):
         qs = self.get_queryset().just_one().filter_by_username(user.username)
         if qs.exists():
-            return qs.order_by("tiempo").first(), False
+            return qs.order_by("time").first(), False
         channel_obj = Channel.objects.create()
         UserChannel.objects.create(user= user, channel=channel_obj)
         return channel_obj, True
