@@ -25,12 +25,12 @@
             <br>
             <p>{{service.description}}</p>
             <br>
-            <h4>{{service.user_id}}</h4>
+            <h4>{{service.user}}</h4>
             <br>
             <h7 style="color: grey";>Categoría: {{service.category}}</h7> 
             <br>
             <br>
-            <button  type="button" class="btn" style="background-color: #050d21;"><a href="{% url 'user-detail' service.user_id.id %}" style=" color: white;"">Ver perfil</a></button>
+            <button  type="button" class="btn" style="background-color: #050d21;"><a href="{% url 'user-detail' service.user.id %}" style=" color: white;"">Ver perfil</a></button>
         </div>
         <div class="col">
             <div style="">

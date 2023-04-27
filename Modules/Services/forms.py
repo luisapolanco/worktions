@@ -44,19 +44,17 @@ class Post_Service(forms.ModelForm):
         ("Cuidado_de_mascotas", "Cuidado_de_mascotas")
     )
     category = forms.ChoiceField(choices=category_choices)
-    user_id =  forms.CharField(max_length=100, required=False)
+    #user_id =  forms.CharField(max_length=100, required=False)
     class Meta:
         model = Service
         fields = [
             'category',
-            'user_id',
             'title',
             'description',
             'images'
         ]
         labels={
             'category':'Elegir categoria ajustada a su servicio',
-            'user_id':'Cedula',
             'Title':'Titulo del servicio',
             'description':'Ingrese descripcion de su servicio a prestar',
             'images':'Muestra tus trabajos anteriores'

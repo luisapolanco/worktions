@@ -64,27 +64,24 @@ def signUp(request):
 
     return render(request, 'registration/registro.html', data)
 
-
+@login_required
 def postService(request):
     data = {
         'form': Post_Service()
     }
-    queryset = User.objects.all()
     if request.method == 'POST':
         form2 = Post_Service(request.POST, request.FILES)
         print(form2)
-        if queryset.filter(pk = form2.cleaned_data['user_id']).exists():
-            user = User.objects.get(id=form2.cleaned_data['user_id'])
-            if form2.is_valid():
-                ServiceTemp = Service()
-                ServiceTemp.category = form2.cleaned_data['category']
-                ServiceTemp.user = user
-                ServiceTemp.title = form2.cleaned_data['title']
-                ServiceTemp.description = form2.cleaned_data['description']
-                ServiceTemp.images = form2.cleaned_data['images']
-                ServiceTemp.save()
-                data['mensaje'] = 'Servicio agregado correctamente'
-                redirect('/home')   
+        if form2.is_valid():
+            ServiceTemp = Service()
+            ServiceTemp.category = form2.cleaned_data['category']
+            ServiceTemp.user = request.user
+            ServiceTemp.title = form2.cleaned_data['title']
+            ServiceTemp.description = form2.cleaned_data['description']
+            ServiceTemp.images = form2.cleaned_data['images']
+            ServiceTemp.save()
+            data['mensaje'] = 'Servicio agregado correctamente'
+            redirect('/home')   
     return render(request, 'service.html', data)
 
 
