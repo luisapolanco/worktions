@@ -67,11 +67,17 @@ class User(AbstractBaseUser):
     def is_staff(self):
         return self.usuario_administrador
     
-
 class Service(models.Model):
     id = models.BigAutoField(primary_key=True)
     title= models.CharField(max_length= 50, default='')
-    user_id = models.ForeignKey(User, null= False, blank=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(User,to_field='id', null= False, blank=False, on_delete=models.CASCADE)
     category = models.CharField(max_length=100, default='', null= False, blank=False)
     description = models.CharField(max_length = 250, default='')
     images = models.ImageField(upload_to="media/services/images", null=True)
+
+class Reviews(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    service = models.ForeignKey(Service, null= False, blank=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null= False, blank=False, on_delete=models.CASCADE)
+    comments = models.CharField(max_length=100, default='', null= False, blank=False)
+    calification = models.FloatField(null= False, blank=False)

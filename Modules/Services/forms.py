@@ -41,11 +41,10 @@ class Post_Service(forms.ModelForm):
         ("Manufactura", "Manufactura"),
         ("Automotriz", "Automotriz"),
         ("Cuidado_de_hogar", "Cuidado_de_hogar"),
-         ("Cuidado_de_mascotas", "Cuidado_de_mascotas")
+        ("Cuidado_de_mascotas", "Cuidado_de_mascotas")
     )
     category = forms.ChoiceField(choices=category_choices)
-    user_id =  forms.ModelChoiceField(queryset=User.objects.all())
-        
+    user_id =  forms.CharField(max_length=100, required=False)
     class Meta:
         model = Service
         fields = [
