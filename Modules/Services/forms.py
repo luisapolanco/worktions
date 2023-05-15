@@ -2,11 +2,13 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.forms import ModelForm
 from .models import User,  Service
+from .choices import BARRIOS_MED
 
 
 class CustomUserCreationForm(UserCreationForm):
-
+    barrio = forms.ChoiceField(choices=BARRIOS_MED)
     class Meta: 
+        
         model = User
         date_of_birth = forms.DateInput
         fields =[
@@ -16,7 +18,8 @@ class CustomUserCreationForm(UserCreationForm):
             'id', 
             'date_of_birth', 
             'address', 
-            'city', 
+            'city',
+            'barrio', 
             'phone', 
             'gender'
         ]
@@ -27,7 +30,8 @@ class CustomUserCreationForm(UserCreationForm):
             'id':'Cedula', 
             'date_of_birth':'Fecha de nacimiento', 
             'address':'Dirección', 
-            'city':'Ciudad', 
+            'city':'Ciudad',
+            'barrio':'Barrio', 
             'phone' : 'Telefono',
             'gender': 'Género'
         }

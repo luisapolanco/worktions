@@ -149,7 +149,7 @@ class userDetail(generic.DetailView):
     def user_detail_view(request, pk):
         try:
             user = User.objects.get(pk=pk)
-            services = Service.objects.filter(user_id=user.id)
+            services = Service.objects.filter(user=user.id)
         except User.DoesNotExist:
             raise Http404("Este usuario no existe")
 

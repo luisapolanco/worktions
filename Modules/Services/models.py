@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from datetime import date
+from .choices import BARRIOS_MED
 
 # Create your models here.
 
@@ -45,6 +46,7 @@ class User(AbstractBaseUser):
     date_of_birth = models.DateField(null=True)
     address = models.CharField(max_length = 50, null=True)
     city = models.CharField(max_length =20, null=True)
+    barrio = models.CharField(choices=BARRIOS_MED, default="------", max_length=200)
     phone = models.CharField(max_length =15, null=True)
     gender = models.CharField(max_length=15, null=True)
     usuario_activo = models.BooleanField(default = True)
