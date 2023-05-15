@@ -4,7 +4,7 @@ from django.core.files.base import ContentFile
 from django.http import Http404, HttpRequest, HttpResponse
 from .models import *
 from django.contrib.auth.views import LoginView
-from .forms import Post_Service, CustomUserCreationForm
+from .forms import  Post_Service, CustomUserCreationForm
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 from django.db.models import Count, Avg, Q,Subquery, OuterRef,Sum
 from django.views import generic
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 from collections import OrderedDict
 User = get_user_model()
 
@@ -47,6 +48,26 @@ def edit_profile(request):
         form = EditProfileForm(instance=request.user)
     return render(request, 'edit_profile.html', {'form': form})
 
+@login_required
+def edit_service_template(request, id):
+    service = Service.objects.get(id=id)    
+    return render(request, 'edit_service.html', {'service': service})
+
+def edit_service(request):
+    print(request.POST['category'])
+    id = request.POST['id']
+    category = request.POST['category']
+    title = request.POST['title']
+    description = request.POST['description']
+    images = request.FILES['images']
+
+    service = Service.objects.get(id=id)    
+    service.category = category
+    service.title = title
+    service.description = description
+    service.images = images
+    service.save()
+    return redirect(to="/profile")
 
 def signUp(request):
     data = {
@@ -64,6 +85,12 @@ def signUp(request):
 
     return render(request, 'registration/registro.html', data)
 
+def delete_service(request, id):
+    service = Service.objects.get(id= id)
+    service.delete()    
+    return redirect(to="/profile")
+
+
 @login_required
 def postService(request):
     data = {
@@ -71,6 +98,7 @@ def postService(request):
     }
     if request.method == 'POST':
         form2 = Post_Service(request.POST, request.FILES)
+        print(request.POST)
         print(form2)
         if form2.is_valid():
             ServiceTemp = Service()
@@ -81,7 +109,7 @@ def postService(request):
             ServiceTemp.images = form2.cleaned_data['images']
             ServiceTemp.save()
             data['mensaje'] = 'Servicio agregado correctamente'
-            redirect('/home')   
+            return redirect(to='/home')   
     return render(request, 'service.html', data)
 
 

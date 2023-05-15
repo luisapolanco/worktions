@@ -18,13 +18,23 @@
                             {{form}}
                         </table>
                         <br></br>
-                        <button type="submit" class="btn btn-success" style="background-color: #050d21;">Guardar</button>
+                        <button type="submit" class="btn btn-success" id="create-service" style="background-color: #050d21;">Guardar</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    var button = document.getElementById("create-service");
+    button.onclick = function() {
+        showAlert("Servicio creado correctamente");
+        setTimeout(function() {
+            window.location.href = '/home';
+        }, 2000);
+    };
+</script>
 
 
 {{mensaje}}
