@@ -6,7 +6,7 @@ from .choices import BARRIOS_MED
 
 
 class CustomUserCreationForm(UserCreationForm):
-    barrio = forms.ChoiceField(choices=BARRIOS_MED)
+    barrio = forms.ChoiceField(choices=BARRIOS_MED, widget=forms.Select(attrs={'placeholder': 'Barrio'}))
     class Meta: 
         
         model = User
@@ -24,7 +24,7 @@ class CustomUserCreationForm(UserCreationForm):
             'gender'
         ]
         labels={
-            'username':'Nombre de usuario:', 
+            'username':'Nombre de usuario', 
             'email':'Correo electrónico', 
             'name':'Nombres', 
             'id':'Cedula', 
