@@ -6,7 +6,7 @@ from .choices import BARRIOS_MED
 
 
 class CustomUserCreationForm(UserCreationForm):
-    barrio = forms.ChoiceField(choices=BARRIOS_MED, widget=forms.Select(attrs={'placeholder': 'Barrio'}))
+    barrio = forms.ChoiceField(choices=BARRIOS_MED)
     class Meta: 
         
         model = User
