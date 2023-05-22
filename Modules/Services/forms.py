@@ -6,7 +6,7 @@ from .choices import BARRIOS_MED
 
 
 class CustomUserCreationForm(UserCreationForm):
-    barrio = forms.ChoiceField(choices=BARRIOS_MED)
+    barrio = forms.ChoiceField(choices=BARRIOS_MED, widget=forms.Select(attrs={'placeholder': 'Barrio'}))
     class Meta: 
         
         model = User
@@ -47,7 +47,7 @@ class Post_Service(forms.ModelForm):
         ("Cuidado_de_hogar", "Cuidado_de_hogar"),
         ("Cuidado_de_mascotas", "Cuidado_de_mascotas")
     )
-    category = forms.ChoiceField(choices=category_choices)
+    category = forms.ChoiceField(choices=category_choices, widget=forms.Select(attrs={  'class':'form-select', 'id':'category', 'name':'category' }))
     #user_id =  forms.CharField(max_length=100, required=False)
     class Meta:
         model = Service
@@ -83,15 +83,3 @@ class EditProfileForm(forms.ModelForm):
         model = User
         fields = ['username','email','name', 'address', 'city','phone','gender']
 
-# class EditServiceForm(forms.ModelForm):
-#     category_choices = (
-#         ("Limpieza", "Limpieza"),
-#         ("Manufactura", "Manufactura"),
-#         ("Automotriz", "Automotriz"),
-#         ("Cuidado_de_hogar", "Cuidado_de_hogar"),
-#         ("Cuidado_de_mascotas", "Cuidado_de_mascotas")
-#     )
-#     category = forms.ChoiceField(choices=category_choices)
-#     title = forms.CharField(max_length=200, required=False)
-#     description = forms.CharField(max_length=30, required=False)
-#     images = forms.ImageField(upload_to="media/services/images", null=True)

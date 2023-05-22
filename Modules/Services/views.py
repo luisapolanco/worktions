@@ -35,18 +35,39 @@ def home(request):
 
 def profile(request):
     services = Service.objects.filter(user_id=request.user.id)
-    return render(request, 'profile.html', {'services': services, 'user': request.user})
+    data = CustomUserCreationForm()
+    serviceForm = Post_Service()
+    
+    return render(request, 'profile.html', {'services': services, 'user': request.user, 'form': data, 'serviceForm': serviceForm})
 
 
 @login_required
 def edit_profile(request):
     if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-    else:
-        form = EditProfileForm(instance=request.user)
-    return render(request, 'edit_profile.html', {'form': form})
+        id = request.POST['id']
+        username = request.POST['username']
+        email = request.POST['email']
+        name = request.POST['name']
+        date_of_birth = request.POST['date_of_birth']
+        address = request.POST['address']
+        city = request.POST['city']
+        barrio = request.POST['barrio']
+        phone = request.POST['phone']
+        gender = request.POST['gender']
+
+        user = User.objects.get(id=id)    
+        user.username = username
+        user.email = email
+        user.name = name
+        user.date_of_birth = date_of_birth
+        user.address = address
+        user.city = city
+        user.barrio = barrio
+        user.phone = phone
+        user.gender = gender
+        user.save()
+        return redirect(to="/profile")
+    
 
 @login_required
 def edit_service_template(request, id):
@@ -54,7 +75,6 @@ def edit_service_template(request, id):
     return render(request, 'edit_service.html', {'service': service})
 
 def edit_service(request):
-    print(request.POST['category'])
     id = request.POST['id']
     category = request.POST['category']
     title = request.POST['title']
@@ -92,25 +112,16 @@ def delete_service(request, id):
 
 
 @login_required
-def postService(request):
-    data = {
-        'form': Post_Service()
-    }
-    if request.method == 'POST':
-        form2 = Post_Service(request.POST, request.FILES)
-        print(request.POST)
-        print(form2)
-        if form2.is_valid():
-            ServiceTemp = Service()
-            ServiceTemp.category = form2.cleaned_data['category']
-            ServiceTemp.user = request.user
-            ServiceTemp.title = form2.cleaned_data['title']
-            ServiceTemp.description = form2.cleaned_data['description']
-            ServiceTemp.images = form2.cleaned_data['images']
-            ServiceTemp.save()
-            data['mensaje'] = 'Servicio agregado correctamente'
-            return redirect(to='/home')   
-    return render(request, 'service.html', data)
+def postService(request):    
+    if request.method == 'POST':       
+        ServiceTemp = Service()
+        ServiceTemp.category = request.POST['category']
+        ServiceTemp.user = request.user
+        ServiceTemp.title = request.POST['title']
+        ServiceTemp.description = request.POST['description']
+        ServiceTemp.images = request.FILES['images']
+        ServiceTemp.save()        
+        return redirect(to="/profile")
 
 
 def analiticaGrafica(request):
