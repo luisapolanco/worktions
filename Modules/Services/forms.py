@@ -6,9 +6,8 @@ from .choices import BARRIOS_MED
 
 
 class CustomUserCreationForm(UserCreationForm):
-    barrio = forms.ChoiceField(choices=BARRIOS_MED, widget=forms.Select(attrs={'placeholder': 'Barrio'}))
-    class Meta: 
-        
+    barrio = forms.ChoiceField(choices=BARRIOS_MED, widget=forms.Select(attrs={'placeholder': 'Barrio',  'class':'form-select', 'id':'barrio', 'name':'barrio' }) )
+    class Meta:         
         model = User
         date_of_birth = forms.DateInput
         fields =[
@@ -47,7 +46,7 @@ class Post_Service(forms.ModelForm):
         ("Cuidado_de_hogar", "Cuidado_de_hogar"),
         ("Cuidado_de_mascotas", "Cuidado_de_mascotas")
     )
-    category = forms.ChoiceField(choices=category_choices)
+    category = forms.ChoiceField(choices=category_choices, widget=forms.Select(attrs={  'class':'form-select', 'id':'category', 'name':'category' }))
     #user_id =  forms.CharField(max_length=100, required=False)
     class Meta:
         model = Service
