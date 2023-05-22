@@ -6,8 +6,9 @@ from .choices import BARRIOS_MED
 
 
 class CustomUserCreationForm(UserCreationForm):
-    barrio = forms.ChoiceField(choices=BARRIOS_MED, widget=forms.Select(attrs={'placeholder': 'Barrio',  'class':'form-select', 'id':'barrio', 'name':'barrio' }) )
-    class Meta:         
+    barrio = forms.ChoiceField(choices=BARRIOS_MED, widget=forms.Select(attrs={'placeholder': 'Barrio'}))
+    class Meta: 
+        
         model = User
         date_of_birth = forms.DateInput
         fields =[
