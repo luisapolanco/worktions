@@ -1,3 +1,4 @@
+{% extends "base.html" %}
 {% load static %}
 <!doctype html>
 <html lang="en">
@@ -8,35 +9,105 @@
     <link type="text/css" href='{% static "Services\css\analitica.css" %}' rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- semantic UI -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.js" integrity="sha512-Cv3WnEz5uGwmTnA48999hgbYV1ImGjsDWyYQakowKw+skDXEYYSU+rlm9tTflyXc8DbbKamcLFF80Cf89f+vOQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.js"
+        integrity="sha512-Cv3WnEz5uGwmTnA48999hgbYV1ImGjsDWyYQakowKw+skDXEYYSU+rlm9tTflyXc8DbbKamcLFF80Cf89f+vOQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </head>
+{% block content %}
 
 <body>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h1>Analitica Macro</h1>
+</br>
+    <div class="container" style="display: flex;">
+        <div class="chart-container" style="height:40vh; width:80vw">
+            <h4>Trabajadores por categoria</h4>
+            <canvas id="categories"></canvas>
+        </div>
+        </br>
+        </br>
 
-    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
-        <h2>Categoria mas popular</h2>
-        <canvas id="categories"></canvas>
-    </div>
-</br>
-</br>
+        <div class="chart-container" style="height:40vh; width:80vw">
+            <h4>Distribucion segun genero</h4>
+            <canvas id="MenvsWomen"></canvas>
+        </div>
+        </br>
+        </br>
 
-    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
-        <h2>MenvsWomen</h2>
-        <canvas id="MenvsWomen"></canvas>
+        <div class="chart-container" style="height:40vh; width:80vw">
+            <h4>Densidad por ciudad</h4>
+            <canvas id="cities"></canvas>
+        </div>
+        </br>
+        </br>
     </div>
+    </br>
+    </br>
+    <h1>Analitica Micro</h1>
 </br>
-</br>
-
-    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
-        <h2>Density by city</h2>
-        <canvas id="cities"></canvas>
+    <div class="container" style="display: flex;"></div>
+    <div class="chart-container" style="height:150vh; width:150vw">
+        <h4>Trabajadores por barrio</h4>
+        <canvas id="barriovscategory"></canvas>
     </div>
-</br>
-</br>
+    </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        var barrioData = {{ barrioData | safe }};
+        var barrioLabel = {{ barrioLabel | safe }};
+        var categorias = {{ categorias | safe }};
+        console.log(barrioData);
+        console.log(barrioLabel);
+        console.log(categorias);
+
+        const ct4 = document.getElementById('barriovscategory');
+
+        var datasets = [];
+        for (var i = 0; i < categorias.length; i++) {
+            var dataset = {
+                label: categorias[i],
+                data: barrioData.map(function (data) {
+                    return data[i];
+                })
+            };
+            datasets.push(dataset);
+        }
+
+        new Chart(ct4, {
+            type: 'radar',
+            data: {
+                labels: barrioLabel,
+                datasets: datasets
+            },
+            options: {
+                plugins: {
+                    colors: {
+                        forceOverride: true
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                }
+            }
+        });
+    </script>
+
+
     <script>
         var df = {{ df | safe }};
         var df1 = {{ df1 | safe }};
@@ -96,38 +167,39 @@
             }
         });
     </script>
-    
 
-<script>
-    var cityData = {{ cityData | safe }};
-    var cityLabel = {{ cityLabel | safe }};
-    const ct3 = document.getElementById('cities');
 
-    new Chart(ct3, {
-        type: 'polarArea',
-        data: {
-            labels: cityLabel,
-            datasets: [{
-                label: '# de personas',
-                data: cityData,
-            }]
-        },
-        options: {
-            plugins: {
-                colors: {
-                    forceOverride: true
-                }
+    <script>
+        var cityData = {{ cityData | safe }};
+        var cityLabel = {{ cityLabel | safe }};
+        const ct3 = document.getElementById('cities');
+
+        new Chart(ct3, {
+            type: 'polarArea',
+            data: {
+                labels: cityLabel,
+                datasets: [{
+                    label: '# de personas',
+                    data: cityData,
+                }]
             },
-            scales: {
-                y: {
-                    beginAtZero: true
+            options: {
+                plugins: {
+                    colors: {
+                        forceOverride: true
+                    }
                 },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    },
+                }
             }
-        }
-    });
-</script>
+        });
+    </script>
 
 
 </body>
+{% endblock %}
 
 </html>

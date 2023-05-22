@@ -143,11 +143,51 @@ def analiticaGrafica(request):
         "cityLabel": cityLabel,
     }
 
+    barrios = User.objects.values('barrio').annotate(count=Count('service__category')).order_by('barrio')
+
+# Obtener todas las categorías disponibles
+    categorias = Service.objects.values_list('category', flat=True).distinct()
+
+# Crear un diccionario para almacenar los datos de cada barrio
+    data_por_barrio = {}
+
+# Inicializar los valores de cada categoría para cada barrio
+    for barrio in barrios:
+        barrio_label = barrio['barrio']
+        data_por_barrio[barrio_label] = {categoria: 0 for categoria in categorias}
+
+# Obtener el número de servicios por categoría para cada barrio
+    for barrio in barrios:
+        barrio_label = barrio['barrio']
+        servicios_por_categoria = Service.objects.filter(user__barrio=barrio_label).values('category').annotate(count=Count('category'))
+        for servicio in servicios_por_categoria:
+            categoria = servicio['category']
+            count = servicio['count']
+            data_por_barrio[barrio_label][categoria] = count
+
+    # Preparar los datos para la gráfica
+    barrioLabel = list(data_por_barrio.keys())
+    barrioData = []
+    for barrio in barrioLabel:
+        data = [data_por_barrio[barrio][categoria] for categoria in categorias]
+        barrioData.append(data)
+    categorias = list(categorias)
+    print(barrioData)
+    print(barrioLabel)
+    print(categorias)
+
+    dictB = {
+        'barrioData': barrioData,
+        'barrioLabel': barrioLabel,
+        'categorias': categorias,
+    }
+
 
     dictS = {
         **dictC,
         **dictG,
         **dictCi,
+        **dictB,
             }   
 
     return render(request, 'analitica.html', context=dictS)
