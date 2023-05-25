@@ -48,24 +48,32 @@
                     <img  class="img-thumbnail"  src="{{service.images.url}}" />
                 </div>
             </div>
+        </div>    
+        <br>
+        <br>
+        <div>
+            <div class="row" style="justify-content: space-evenly;">
                 {% for review in reviews %}
                 <div class="col-md-4">
-                    <div class="card" >
+                    <div class="card" style="background-color: rgb(231, 229, 229);" >
                         <div class="card-body" style="max-height: 300px; min-height: 180px;">
-                            <h5>{{review.calification}}</h5>
+                            <h5>Calificación: {{review.calification}}</h5>
+                            <br>
                             <p style="overflow: hidden; white-space: nowrap;text-overflow: ellipsis;">{{review.comments}}</p>
                             <h6>{{review.user}}</h6> 
                         </div>
                     </div>
+                    <br>
                 </div>
                 {% endfor %}
-        </div>    
+            </div>
+        </div>
         <!-- Modal -->
         <div class="modal fade" id="Reviews">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Escribe tu reseña</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -115,22 +123,7 @@
                 deleteModal.addEventListener('show.bs.modal', function(event){
                     var button = event.relatedTarget
                     console.log("Hola eliminar")
-                });
-        /*$("#addForm").submit(function(e){
-            $.ajax({
-                data:$(this).serialize(),
-                method:$(this).attr('method'),
-                url:$(this).attr('action'),
-                dataType:'json',
-                success:function(res){
-                    if(res.bool==true){
-                        $(".ajaxRes").html("Se ha agregado la review");
-                        $("#reset").trigger('click');
-                    }
-                }
-            });
-            e.preventDefault();
-        });*/
+        });       
     </script>
     </body>
 </html>
