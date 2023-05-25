@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
-from django.http import Http404, HttpRequest, HttpResponse
+from django.http import Http404, HttpRequest, HttpResponse, JsonResponse
 from .models import *
 from django.contrib.auth.views import LoginView
-from .forms import  Post_Service, CustomUserCreationForm
+from .forms import  Post_Service, CustomUserCreationForm, ReviewAdd
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -204,20 +204,21 @@ def analiticaGrafica(request):
     return render(request, 'analitica.html', context=dictS)
 
 
-class serviceDetail(generic.DetailView):
-    model = Service
-    template_name = 'service_detail.html'
 
-    def service_detail_view(request, pk):
+def service_detail_view(request, pk):
         try:
-            service_id = Service.objects.get(pk=pk)
+            print("que se acabe ya")
+            Zervice_id = Service.objects.get(pk=pk)
+            reviewForm = ReviewAdd()
+            print("que se acabe ya")
+            re_list = Reviews.objects.filter(service_id = pk)
+            print(re_list)
         except Service.DoesNotExist:
             raise Http404("Este servicio no existe")
-
         return render(
             request,
             'service_detail.html',
-            context={'service': service_id, }
+            {'service': Zervice_id, 'form':reviewForm, 'reviews':re_list}
         )
 
 
@@ -237,3 +238,14 @@ class userDetail(generic.DetailView):
             'user_detail.html',
             context={'user_info': user, 'services': services}
         )
+
+def save_review(request, sid):
+    service = Service.objects.get(pk=sid)
+    user = request.user
+    review = Reviews.objects.create(
+        user = user,
+        service = service,
+        comments = request.POST['comments'],
+        calification = request.POST['calification'],
+    )
+    return redirect(to=f'/service/{sid}')

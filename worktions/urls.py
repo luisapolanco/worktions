@@ -33,8 +33,9 @@ urlpatterns = [
     path('edit_service/<id>', servicesViews.edit_service_template,name="edit_service_template"),
     path('edit_service', servicesViews.edit_service, name="edit_service"),
     path('analitica/', servicesViews.analiticaGrafica,name="analitica"),
-    path('service/<int:pk>/', servicesViews.serviceDetail.as_view(), name='service_detail'),
+    path('service/<int:pk>/', servicesViews.service_detail_view, name='service_detail'),
     path('user/profile/<str:pk>/', servicesViews.userDetail.user_detail_view, name='user-detail'),
+    path('save_review/<int:sid>/', servicesViews.save_review, name='save_review'),
     path('', include('chat.urls'))
 ]
 
