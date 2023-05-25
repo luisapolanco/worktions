@@ -77,9 +77,19 @@ class Service(models.Model):
     description = models.CharField(max_length = 250, default='')
     images = models.ImageField(upload_to="media/services/images", null=True)
 
+ESTRELLAS = (
+    (1,'1'),
+    (2,'2'),
+    (3,'3'),
+    (4,'4'),
+    (5,'5'),
+)
+
 class Reviews(models.Model):
-    id = models.BigAutoField(primary_key=True)
     service = models.ForeignKey(Service, null= False, blank=False, on_delete=models.CASCADE)
     user = models.ForeignKey(User, null= False, blank=False, on_delete=models.CASCADE)
-    comments = models.CharField(max_length=100, default='', null= False, blank=False)
-    calification = models.FloatField(null= False, blank=False)
+    comments = models.TextField()
+    calification = models.CharField(choices=ESTRELLAS, max_length=150)
+
+    def get_calification(self):
+        return self.calification

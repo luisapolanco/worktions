@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.forms import ModelForm
-from .models import User,  Service
+from .models import User,  Service, Reviews
 from .choices import BARRIOS_MED
 
 
@@ -83,3 +83,16 @@ class EditProfileForm(forms.ModelForm):
         model = User
         fields = ['username','email','name', 'address', 'city','phone','gender']
 
+class ReviewAdd(forms.ModelForm):
+    ESTRELLAS = (
+    (1,'1'),
+    (2,'2'),
+    (3,'3'),
+    (4,'4'),
+    (5,'5'),
+    )
+    comments = forms.Textarea()
+    calification = forms.ChoiceField(choices=ESTRELLAS, required=True)
+    class Meta:
+        model = Reviews
+        fields = ['comments', 'calification']

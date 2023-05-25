@@ -21,9 +21,9 @@
 
 <body>
 
-    <div style="padding-top: 15%;">
-        <h1 style="text-align: center; justify-content: center;"> Hola {{ user.name }} </h1>
-    </div>
+    <div style="padding-top: 10%;">        
+        <h1 style="text-align: center; justify-content: center;"> Hola {{ user.name }} </h1> 
+    </div>    
     <br>
     <div style="display: flex; justify-content: center; align-items: center;">
         <button type="submit" class="btn" style="background-color: #050d21; color: white; margin-right: 20px;"
@@ -38,7 +38,7 @@
     <br>
 
     <div class="container text-center">
-        <div class="row">
+        <div class="row" style="justify-content: space-evenly;">
             {% for service in services %}
             <div class="col-md-4">
                 <div class="card">
@@ -68,8 +68,7 @@
                 <br>
             </div>
             {% if forloop.counter|divisibleby:"3" and not forloop.last %}
-        </div>
-        <div class="row">
+              </div><div class="row" style="justify-content: space-evenly;">
             {% endif %}
             {% endfor %}
         </div>
@@ -238,17 +237,14 @@
                             <div class="col-9">
                                 <input type="file" id="images" name="images" required class="form-control"><br>
                             </div>
-                        </div>
+                        </div>                                                                
+                </div>
 
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Descartar</button>
-                        <button type="submit" class="btn btn-primary">Guardar información</button>
-
-                    </div>
-                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Descartar</button>                                           
+                    <button type="submit" class="btn btn-primary">Guardar información</button>                                    
+                </div>
+            </form>
             </div>
         </div>
     </div>
