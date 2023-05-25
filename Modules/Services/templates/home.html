@@ -29,7 +29,7 @@
                         <div style="width: 40%;">
                             <form action="">
                                 <div class="mb-3">
-                                    <label for="searchService" class="form-label">
+                                    <label for="searchService" class="form-label" style="font-size: 20px;">
                                         Buscar un servicio:
                                     </label>
                                     <input type="text" class="form-control" name="searchService" />
@@ -42,11 +42,11 @@
                         <br>
                         <p>Buscando  {{ searchTerm }} </p>
                         <br> 
-                        <div class="row">
+                        <div class="row" style="justify-content: space-evenly;">
                             {% for service in services %}
-                                <div class="col-md-4">
+                                <div class="col-md-3" >
                                     <div class="card" >
-                                        <img src="{{service.images.url}}"style=" width: 100%; max-height: 250px; min-height: 250px;" />
+                                        <img src="{{service.images.url}}"style=" width: 100%; max-height: 225px; min-height: 220px;" />
                                         <br>
                                         <div class="card-body" style="max-height: 300px; min-height: 180px;">
                                             <h5>{{service.title}}</h5>
@@ -60,7 +60,7 @@
                                     <br>                              
                                 </div>
                             {% if forloop.counter|divisibleby:"3" and not forloop.last %}
-                              </div><div class="row">
+                              </div><div class="row" style="justify-content: space-evenly;">
                             {% endif %}
                           {% endfor %}
                         </div>                     
